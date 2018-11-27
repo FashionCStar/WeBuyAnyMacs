@@ -564,6 +564,16 @@ $wp_customize->add_section( 'buzzstore_implink_section', array(
          'setting' => 'buzzstore_thired_title_icon_block_area',
       ));
 
+/**
+ * Home 1 - Full Width Section
+*/
+$buzzstore_home_section = $wp_customize->get_section( 'sidebar-widgets-buzzstorehomearea' );
+if ( ! empty( $buzzstore_home_section ) ) {
+    $buzzstore_home_section->panel = '';
+    $buzzstore_home_section->title = esc_html__( 'Buzz : Home Main Widget Are', 'buzzstore' );
+    $buzzstore_home_section->priority = 8;
+}
+
 
     /**
      * Breadcrumbs Settings

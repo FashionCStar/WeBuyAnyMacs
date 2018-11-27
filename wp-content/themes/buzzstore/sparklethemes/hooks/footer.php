@@ -32,35 +32,26 @@ if ( ! function_exists( 'buzzstore_footer_widget_area' ) ) {
 		$top_footer_options = esc_attr( get_theme_mod( 'buzzstore_footer_area_two_enable_disable_section','enable' ) );
 		$top_footer_bg = esc_attr( get_theme_mod( 'buzzstore_footer_area_two_background_color','#222222' ) );
 		if(!empty( $top_footer_options ) && $top_footer_options =='enable' ) { ?>
-			<div class="buzz-footerwpra" <?php if(!empty( $top_footer_bg )) { ?>style="background-color:<?php echo esc_attr( $top_footer_bg ); ?>;"<?php } ?>>
-				<div class="buzz-container">
-					<div class="buzz-footerwrap  buzz-clearfix">
-						<?php if ( is_active_sidebar( 'buzzstorefooterone' ) ) { ?>
-							<div class="footer-widget wow fadeInLeft" data-wow-delay="0.3s">					
-								<?php dynamic_sidebar( 'buzzstorefooterone' ); ?>
-							</div>
-						<?php } ?>
-						
-						<?php if ( is_active_sidebar( 'buzzstorefootertwo' ) ) { ?>
-							<div class="footer-widget wow fadeInUp" data-wow-delay="0.3s">
-								<?php dynamic_sidebar( 'buzzstorefootertwo' ); ?>
-							</div>
-						<?php } ?>
-
-						<?php if ( is_active_sidebar( 'buzzstorefooterthree' ) ) { ?>
-							<div class="footer-widget wow fadeInUp" data-wow-delay="0.3s">
-								<?php dynamic_sidebar( 'buzzstorefooterthree' ); ?>
-							</div>
-						<?php } ?>
-
-						<?php if ( is_active_sidebar( 'buzzstorefooterfour' ) ) { ?>
-							<div class="footer-widget wow fadeInRight" data-wow-delay="0.3s">
-								<?php dynamic_sidebar( 'buzzstorefooterfour' ); ?>
-							</div>
-						<?php } ?>
-					</div>
-				</div>
-			</div>
+            <?php if ( is_active_sidebar( 'buzzstorefooterone' ) ) { ?>
+                <div class="col-md-3 inner-footer-link">
+                    <?php dynamic_sidebar( 'buzzstorefooterone' ); ?>
+                </div>
+            <?php } ?>
+            <?php if ( is_active_sidebar( 'buzzstorefootertwo' ) ) { ?>
+                <div class="col-md-3  inner-footer-link">
+                    <?php dynamic_sidebar( 'buzzstorefootertwo' ); ?>
+                </div>
+            <?php } ?>
+            <?php if ( is_active_sidebar( 'buzzstorefooterthree' ) ) { ?>
+                <div class="col-md-3  inner-footer-link">
+                    <?php dynamic_sidebar( 'buzzstorefooterthree' ); ?>
+                </div>
+            <?php } ?>
+            <?php if ( is_active_sidebar( 'buzzstorefooterfour' ) ) { ?>
+                <div class="col-md-3  inner-footer-link">
+                    <?php dynamic_sidebar( 'buzzstorefooterfour' ); ?>
+                </div>
+            <?php } ?>
 	    <?php 
 		}
 	}

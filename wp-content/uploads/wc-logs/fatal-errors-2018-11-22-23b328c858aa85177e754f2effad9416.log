@@ -1,0 +1,22 @@
+2018-11-22T14:09:30+00:00 CRITICAL Call to a member function get_name() on string in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\single-product\product-image.php on line 73
+
+2018-11-22T14:09:44+00:00 CRITICAL Call to a member function get_name() on array in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\single-product\product-image.php on line 73
+
+2018-11-22T14:09:51+00:00 CRITICAL Call to a member function get_name() on string in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\single-product\product-image.php on line 73
+
+2018-11-22T14:57:30+00:00 CRITICAL Cannot use object of type stdClass as array in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\single-product\product-image.php on line 73
+
+2018-11-22T14:57:49+00:00 CRITICAL Cannot use object of type stdClass as array in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\single-product\product-image.php on line 73
+
+2018-11-22T15:01:32+00:00 CRITICAL Cannot use object of type stdClass as array in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\single-product\product-image.php on line 73
+
+2018-11-22T16:41:58+00:00 CRITICAL Call to undefined function dynamic_sidebar() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\product-searchform.php on line 104
+
+2018-11-22T16:42:26+00:00 CRITICAL Call to undefined function dynamic_sidebar() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\product-searchform.php on line 109
+
+2018-11-22T16:42:37+00:00 CRITICAL Call to undefined function dynamic_sidebar() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\product-searchform.php on line 110
+
+2018-11-22T16:42:50+00:00 CRITICAL Call to undefined function dynamic_sidebar() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\product-searchform.php on line 110
+
+2018-11-22T16:43:06+00:00 CRITICAL Call to undefined function dynamic_sidebar() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\product-searchform.php on line 109
+

@@ -9,13 +9,13 @@ if ( ! function_exists( 'buzzstore_skip_links' ) ) {
 	 */
 	function buzzstore_skip_links() {
 		?>
-		<a class="skip-link screen-reader-text" href="#content">
-			<?php esc_html_e( 'Skip to content', 'buzzstore' ); ?>
-		</a>
+<!--		<a class="skip-link screen-reader-text" href="#content">-->
+<!--			--><?php //esc_html_e( 'Skip to content', 'buzzstore' ); ?>
+<!--		</a>-->
 		<?php
 	}
 }
-add_action( 'buzzstore_header_before', 'buzzstore_skip_links', 5 );
+//add_action( 'buzzstore_header_before', 'buzzstore_skip_links', 5 );
 
 
 if ( ! function_exists( 'buzzstore_header_before' ) ) {
@@ -105,7 +105,7 @@ add_action( 'buzzstore_header', 'buzzstore_top_header', 15 );
  * Main header area
 */
 if ( ! function_exists( 'buzzstore_main_header' ) ) {
-	
+
 	function buzzstore_main_header() { ?>
 			<div class="buzz-main-header">
 				<div class="buzz-container buzz-clearfix">
@@ -116,24 +116,28 @@ if ( ! function_exists( 'buzzstore_main_header' ) ) {
 								<?php the_custom_logo(); ?>
 							</div>
 
-							<div class="buzz-logo-title site-branding">					
+							<div class="buzz-logo-title site-branding">
 								<h1 class="buzz-site-title site-title">
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 										<?php bloginfo( 'name' ); ?>
 									</a>
 								</h1>
-								<?php 
+								<?php
 									$description = get_bloginfo( 'description', 'display' );
-									if ( $description || is_customize_preview() ) { ?>
-										<p class="buzz-site-description site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
+									if ( $description || is_customize_preview() )
+									{ ?>
+										<p class="buzz-site-description site-description">
+                                            <?php echo $description; /* WPCS: xss ok. */ ?>
+                                        </p>
 								<?php } ?>
 							</div>
 
 						</div>
-					</div><!-- .site-branding -->
+					</div>
+                    <!-- .site-branding -->
 
 					<?php do_action('buzzstore_search'); ?><!-- search section -->
-					
+
 					<?php if ( buzzstore_is_woocommerce_activated() ) { ?>
                         <div class="buzz-cart-main">
 							<div class="view-cart">
@@ -147,11 +151,11 @@ if ( ! function_exists( 'buzzstore_main_header' ) ) {
 					<?php  } ?>
 
 				</div>
-			</div><!-- Main header section -->	    
+			</div><!-- Main header section -->
 		<?php
 	}
 }
-add_action( 'buzzstore_header', 'buzzstore_main_header', 20 );
+//add_action( 'buzzstore_header', 'buzzstore_main_header', 20 );
 
 
 

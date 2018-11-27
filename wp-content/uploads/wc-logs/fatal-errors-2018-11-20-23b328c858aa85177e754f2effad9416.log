@@ -1,0 +1,26 @@
+2018-11-20T05:25:19+00:00 CRITICAL Call to undefined method WC_Product_Simple::get_category() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\content-single-product.php on line 133
+
+2018-11-20T05:25:27+00:00 CRITICAL Call to undefined method WC_Product_Simple::get_cat() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\content-single-product.php on line 133
+
+2018-11-20T05:26:24+00:00 CRITICAL Call to undefined method WC_Product_Simple::getCategoryIds() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\content-single-product.php on line 133
+
+2018-11-20T05:41:08+00:00 CRITICAL Call to a member function text() on string in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\content-single-product.php on line 134
+
+2018-11-20T11:47:53+00:00 CRITICAL syntax error, unexpected end of file in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\page-front.php on line 526
+
+2018-11-20T12:23:41+00:00 CRITICAL Object of class WP_Term could not be converted to string in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\page-front.php on line 273
+
+2018-11-20T14:16:08+00:00 CRITICAL Cannot redeclare my_enqueue() (previously declared in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\getproducts.php:4) in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\page-front.php on line 542
+
+2018-11-20T14:16:09+00:00 CRITICAL Cannot redeclare my_enqueue() (previously declared in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\getproducts.php:4) in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\page-front.php on line 542
+
+2018-11-20T14:16:09+00:00 CRITICAL Cannot redeclare my_enqueue() (previously declared in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\getproducts.php:4) in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\page-front.php on line 542
+
+2018-11-20T14:34:37+00:00 CRITICAL syntax error, unexpected '{' in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\getproducts.php on line 12
+
+2018-11-20T14:34:37+00:00 CRITICAL syntax error, unexpected '{' in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\getproducts.php on line 12
+
+2018-11-20T14:34:37+00:00 CRITICAL syntax error, unexpected '{' in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\getproducts.php on line 12
+
+2018-11-20T14:59:40+00:00 CRITICAL Cannot use object of type WP_Query as array in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\getproducts.php on line 24
+
