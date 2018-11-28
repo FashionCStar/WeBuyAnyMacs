@@ -36,6 +36,7 @@ abbr, address, article, aside, audio, b, blockquote, body, body div, caption, ci
     vertical-align: baseline;
     background: 0 0;
     list-style:none;
+    background: 0 0
 }
 
 article, aside, details, figure, footer, header, nav, section, summary {

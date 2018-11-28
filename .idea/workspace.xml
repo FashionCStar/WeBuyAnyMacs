@@ -1124,6 +1124,7 @@
       <change beforePath="$PROJECT_DIR$/wp-content/uploads/2018/11/Image1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/uploads/2018/11/Image1.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wp-content/uploads/GeoLite2-Country.mmdb" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/uploads/GeoLite2-Country.mmdb" afterDir="false" />
     </list>
+    <list default="true" id="e0d3c41e-4214-4c7a-a2c2-f3db7ce2a749" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -1208,6 +1209,8 @@
         <option value="$PROJECT_DIR$/wp-content/themes/buzzstore/help.php" />
       </list>
     </option>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -1286,6 +1289,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\develop\WordPress\wbam\wp-content" />
@@ -1315,6 +1319,7 @@
       <option name="presentableId" value="Default" />
       <updated>1543344105567</updated>
       <workItem from="1543344109616" duration="9838000" />
+      <workItem from="1543344109616" duration="507000" />
     </task>
     <servers />
   </component>
@@ -1324,6 +1329,10 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
+    <option name="totallyTimeSpent" value="507000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1333,6 +1342,7 @@
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" visible="true" weight="0.27640158" />
+      <window_info anchor="bottom" id="Version Control" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -1432,5 +1442,8 @@
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
 </project>
