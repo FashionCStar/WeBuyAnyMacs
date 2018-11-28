@@ -113,14 +113,19 @@ function wc_add_to_cart_message( $products, $show_qty = false, $return = false )
 
 	$titles = array_filter( $titles );
 	/* translators: %s: product name */
-	$added_text = sprintf( _n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'woocommerce' ), wc_format_list_of_items( $titles ) );
+//	$added_text = sprintf( _n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'woocommerce' ), wc_format_list_of_items( $titles ) );
+
+    $added_text1 = "Thanks for your order. What to do next? \n
+                    If you finished,please check the ";
+    $added_text2 = " for complete your order.\n
+                    If you do have more Items please add them to basket.";
 
 	// Output success messages.
 	if ( 'yes' === get_option( 'woocommerce_cart_redirect_after_add' ) ) {
 		$return_to = apply_filters( 'woocommerce_continue_shopping_redirect', wc_get_raw_referer() ? wp_validate_redirect( wc_get_raw_referer(), false ) : wc_get_page_permalink( 'shop' ) );
-		$message   = sprintf( '<a href="%s" tabindex="1" class="button wc-forward">%s</a> %s', esc_url( $return_to ), esc_html__( 'Continue shopping', 'woocommerce' ), esc_html( $added_text ) );
+		$message   = sprintf( '<div style=" padding: inherit; "> %s <a href="%s" tabindex="1" >%s</a> %s </div>', esc_html( $added_text1 ), esc_url( $return_to ), esc_html__( 'Continue shopping',  'woocommerce' ), esc_html( $added_text2 ) );
 	} else {
-		$message = sprintf( '<a href="%s" tabindex="1" class="button wc-forward">%s</a> %s', esc_url( wc_get_page_permalink( 'cart' ) ), esc_html__( 'View cart', 'woocommerce' ), esc_html( $added_text ) );
+		$message = sprintf( '<div style=" padding: inherit; "> %s <a href="%s" tabindex="1" >%s</a> %s </div>', esc_html( $added_text1 ), esc_url( wc_get_page_permalink( 'cart' ) ), esc_html__( 'Basket', 'woocommerce' ), esc_html( $added_text2 ) );
 	}
 
 	if ( has_filter( 'wc_add_to_cart_message' ) ) {

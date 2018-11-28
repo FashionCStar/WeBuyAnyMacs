@@ -28,11 +28,17 @@ if ( ! function_exists( 'buzzstore_breadcrumb_woocommerce' ) ) {
                 <div class="buzz-container wow zoomIn" data-wow-delay="0.3s">
                     <header class="entry-header">
                         <?php if( is_product() ) {
+
                               the_title( '<h1 class="entry-title">', '</h1>' ); 
+
                           }elseif( is_search() ){ ?>
+
                                 <h1 class="entry-title"><?php printf( esc_html__( 'Search Results for : %1$s', 'buzzstore' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+                        
                         <?php }else{ ?>
+
                             <h1 class="entry-title"><?php woocommerce_page_title(); ?></h1>
+
                         <?php  } ?>         
                     </header><!-- .entry-header -->
                     <?php woocommerce_breadcrumb(); ?>
@@ -51,7 +57,7 @@ if ( ! function_exists( 'buzzstore_breadcrumb_page' ) ) {
     function buzzstore_breadcrumb_page() {
         $breadcrumb_options_page = esc_attr( get_theme_mod('buzzstore_normal_page_enable_disable_section', 'enable') );
         $breadcrumb_page_image = esc_url( get_theme_mod('buzzstore_breadcrumbs_normal_page_background_image') );
-       
+
         if($breadcrumb_page_image){
             $breadcrumb_page_image = $breadcrumb_page_image;
         }else{
@@ -71,17 +77,17 @@ if ( ! function_exists( 'buzzstore_breadcrumb_page' ) ) {
                             <?php }elseif( is_404() ){ ?>
                                 <h1 class="entry-title"><?php echo esc_html__('404','buzzstore'); ?></h1>
                             <?php }else{
-                                the_title( '<h1 class="entry-title">', '</h1>' ); 
+                                the_title( '<h1 class="entry-title">', '</h1>' );
                             }
                         ?>
                     </header>
                     <?php buzzstore_breadcrumbs(); ?>
-                </div>                
+                </div>
             </div>
         <?php }
     }
 }
-add_action( 'buzzstore-breadcrumb-page', 'buzzstore_breadcrumb_page' );
+//add_action( 'buzzstore-breadcrumb-page', 'buzzstore_breadcrumb_page' );
 
 /**
  * Buzzstore single post and archive breadcrumb function area
@@ -224,7 +230,7 @@ if ( ! function_exists( 'buzzstore_quick_contact' ) ) {
                 <?php } if( !empty( $buzzstore_quick_email ) ) { ?>
                     <li>
         				<span class="icon-envelope-open"></span>
-        				<a href="mailto:'<?php echo esc_attr( antispambot( $buzzstore_quick_email ) ); ?>"><?php echo esc_attr( antispambot( $buzzstore_quick_email ) ); ?></a>
+        				<a href="mailto:<?php echo esc_attr( antispambot( $buzzstore_quick_email ) ); ?>"><?php echo esc_attr( antispambot( $buzzstore_quick_email ) ); ?></a>
         			</li>
                 <?php } if( !empty( $buzzstore_quick_phone ) ) { ?>
         			<li>
@@ -417,7 +423,7 @@ if (!function_exists('buzzstore_breadcrumbs')) {
         if (is_category()) {
           $thisCat = get_category( get_query_var('cat') , false);
           if ($thisCat->parent != 0)
-            echo esc_attr( get_category_parents($thisCat->parent, TRUE, ' ' . esc_attr($delimiter) . ' ') );
+            echo wp_kses_post( get_category_parents($thisCat->parent, TRUE, ' ' . esc_attr($delimiter) . ' ') );
           echo esc_html__('Archive by category','buzzstore').' "' . single_cat_title('', false) . '" ';
         } elseif (is_search()) {
           echo esc_html__('Search results for','buzzstore'). '"' . get_search_query() . '"';
@@ -635,3 +641,5 @@ if ( ! function_exists( 'buzzstore_save_page_settings' ) ) {
     }
 }
 add_action('save_post', 'buzzstore_save_page_settings');
+
+//add_action( 'woocommerce_before_single_product', 'woocommerce_output_title_and_hint', 10 );

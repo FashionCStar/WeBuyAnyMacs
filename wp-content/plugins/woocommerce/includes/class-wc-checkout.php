@@ -763,24 +763,24 @@ class WC_Checkout {
 			$errors->add( 'terms', __( 'Please read and accept the terms and conditions to proceed with your order.', 'woocommerce' ) );
 		}
 
-		if ( WC()->cart->needs_shipping() ) {
-			$shipping_country = WC()->customer->get_shipping_country();
-
-			if ( empty( $shipping_country ) ) {
-				$errors->add( 'shipping', __( 'Please enter an address to continue.', 'woocommerce' ) );
-			} elseif ( ! in_array( WC()->customer->get_shipping_country(), array_keys( WC()->countries->get_shipping_countries() ), true ) ) {
-				/* translators: %s: shipping location */
-				$errors->add( 'shipping', sprintf( __( 'Unfortunately <strong>we do not ship %s</strong>. Please enter an alternative shipping address.', 'woocommerce' ), WC()->countries->shipping_to_prefix() . ' ' . WC()->customer->get_shipping_country() ) );
-			} else {
-				$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
-
-				foreach ( WC()->shipping->get_packages() as $i => $package ) {
-					if ( ! isset( $chosen_shipping_methods[ $i ], $package['rates'][ $chosen_shipping_methods[ $i ] ] ) ) {
-						$errors->add( 'shipping', __( 'No shipping method has been selected. Please double check your address, or contact us if you need any help.', 'woocommerce' ) );
-					}
-				}
-			}
-		}
+//		if ( WC()->cart->needs_shipping() ) {
+//			$shipping_country = WC()->customer->get_shipping_country();
+//
+//			if ( empty( $shipping_country ) ) {
+//				$errors->add( 'shipping', __( 'Please enter an address to continue.', 'woocommerce' ) );
+//			} elseif ( ! in_array( WC()->customer->get_shipping_country(), array_keys( WC()->countries->get_shipping_countries() ), true ) ) {
+//				/* translators: %s: shipping location */
+//				$errors->add( 'shipping', sprintf( __( 'Unfortunately <strong>we do not ship %s</strong>. Please enter an alternative shipping address.', 'woocommerce' ), WC()->countries->shipping_to_prefix() . ' ' . WC()->customer->get_shipping_country() ) );
+//			} else {
+//				$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
+//
+//				foreach ( WC()->shipping->get_packages() as $i => $package ) {
+//					if ( ! isset( $chosen_shipping_methods[ $i ], $package['rates'][ $chosen_shipping_methods[ $i ] ] ) ) {
+//						$errors->add( 'shipping', __( 'No shipping method has been selected. Please double check your address, or contact us if you need any help.', 'woocommerce' ) );
+//					}
+//				}
+//			}
+//		}
 
 		if ( WC()->cart->needs_payment() ) {
 			$available_gateways = WC()->payment_gateways->get_available_payment_gateways();

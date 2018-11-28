@@ -1,0 +1,8 @@
+2018-11-27T17:13:35+00:00 CRITICAL require(): Failed opening required 'F:\develop\WordPress\webuyanymacs/wp-content/themes/buzzstore/sparklethemes/hooks/woocommerce.php' (include_path='E:\xampp\php\PEAR') in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\sparklethemes\init.php on line 72
+
+2018-11-27T17:13:37+00:00 CRITICAL require(): Failed opening required 'F:\develop\WordPress\webuyanymacs/wp-content/themes/buzzstore/sparklethemes/hooks/woocommerce.php' (include_path='E:\xampp\php\PEAR') in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\sparklethemes\init.php on line 72
+
+2018-11-27T17:13:38+00:00 CRITICAL require(): Failed opening required 'F:\develop\WordPress\webuyanymacs/wp-content/themes/buzzstore/sparklethemes/hooks/woocommerce.php' (include_path='E:\xampp\php\PEAR') in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\sparklethemes\init.php on line 72
+
+2018-11-27T17:13:49+00:00 CRITICAL require(): Failed opening required 'F:\develop\WordPress\webuyanymacs/wp-content/themes/buzzstore/sparklethemes/hooks/woocommerce.php' (include_path='E:\xampp\php\PEAR') in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\sparklethemes\init.php on line 72
+

@@ -125,6 +125,16 @@ if ( ! function_exists( 'buzzstore_widgets_init' ) ) {
 			'after_title'   => '</h2>',
 		) );
 
+        register_sidebar( array(
+            'name'          => esc_html__( 'Product Filter Form', 'buzzstore' ),
+            'id'            => 'buzzproductfilterform',
+            'description'   => esc_html__( 'Add widgets here.', 'buzzstore' ),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title wow fadeInUp" data-wow-delay="0.3s">',
+            'after_title'   => '</h2>',
+        ) );
+
 		register_sidebar( array(
 			'name'          => esc_html__( 'Left Sidebar Widget Area', 'buzzstore' ),
 			'id'            => 'buzzsidebartwo',
@@ -135,10 +145,17 @@ if ( ! function_exists( 'buzzstore_widgets_init' ) ) {
 			'after_title'   => '</h2>',
 		) );
 
+		if ( is_customize_preview() ) {
+            $buzzstore_description = sprintf( esc_html__( 'Displays widgets on home page main content area.%1$s Note : Please go to %2$s "Static Front Page"%3$s setting, Select "A static page" then "Front page" and "Posts page" to show added widgets', 'buzzstore' ), '<br />','<b><a class="sparkle-customizer" data-section="static_front_page" style="cursor: pointer">','</a></b>' );
+        }
+        else{
+            $buzzstore_description = esc_html__( 'Displays widgets on Front/Home page. Note : First Create Page and Select "Page Attributes Template"( SpiderMag - FrontPage ) then Please go to Setting => Reading, Select "A static page" then "Front page" and add widgets to show on Home Page', 'buzzstore' );
+        }
+
 		register_sidebar( array(
 			'name'          => esc_html__( 'Buzz : Home Main Widget Area', 'buzzstore' ),
 			'id'            => 'buzzstorehomearea',
-			'description'   => esc_html__( 'Add widgets here. (Note :- Buzz : Home Main Widget only wroking when you are create a new page & select PageTemplate: Front Page & set In Front Page, that you created', 'buzzstore' ),
+			'description'   => $buzzstore_description,
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title wow fadeInUp" data-wow-delay="0.3s">',
@@ -263,6 +280,17 @@ function buzzstore_scripts() {
 	    /* BuzzStore Theme Custom js */
 	    wp_enqueue_script('buzzstore-custom', get_template_directory_uri() . '/assets/js/buzzstore-custom.js', array('jquery'), $theme_version, 'ture');
 
+	    wp_enqueue_script('panel-engine', get_template_directory_uri() . '/assets/js/panel-engine.js?v=1.3.2', array('jquery'), $theme_version, 'false');
+        wp_enqueue_script('jquery-ui', get_template_directory_uri() . '/assets/js/jquery-ui.js?v=1.2.3', array('jquery'), $theme_version, 'false');
+        wp_enqueue_script('jquery-validate', get_template_directory_uri() . '/assets/js/jquery.validate.min.js?v=1.1.3', array('jquery'), $theme_version, 'false');
+        wp_enqueue_script('js-util', get_template_directory_uri() . '/assets/js/util.js?v=1.5.9', array('jquery'), $theme_version, 'ture');
+        wp_enqueue_script('jquery-animateNumbers', get_template_directory_uri() . '/assets/js/jquery.animateNumbers.js?v=1.1.3', array('jquery'), $theme_version, 'false');
+        wp_enqueue_script('buzzstore_custom', get_template_directory_uri() . '/assets/js/custom.js?v=1.1.3', array('jquery'), $theme_version, true);
+
+        wp_enqueue_style( 'custome-style', get_template_directory_uri() . '/assets/css/ltr.css');
+        wp_enqueue_style( 'Flat-Icon', get_template_directory_uri() . '/assets/Icons/flaticon.css');
+        wp_enqueue_style( 'Quick-sand', "https://fonts.googleapis.com/css?family=Quicksand:300,400,700");
+
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
 		}
@@ -278,13 +306,13 @@ if ( ! function_exists( 'buzzstore_media_scripts' ) ) {
 
     	if( 'widgets.php' != $hook )
         return;
-        wp_register_script('buzzstore-media-uploader', get_template_directory_uri() . '/assets/js/buzzstore-admin.js', array('jquery') );
+        wp_register_script('buzzstore-media-uploader', get_template_directory_uri() . '/assets/js/buzzstore-admin.js', array('jquery','customize-controls') );
         wp_enqueue_script('buzzstore-media-uploader');
         wp_localize_script('buzzstore-media-uploader', 'buzzstore_widget_img', array(
             'upload' => esc_html__('Upload', 'buzzstore'),
             'remove' => esc_html__('Remove', 'buzzstore')
         ));
-        wp_enqueue_style( 'buzzstore-admin-style', get_template_directory_uri() . '/assets/css/buzzstore-admin.css');    
+        wp_enqueue_style( 'buzzstore-admin-style', get_template_directory_uri() . '/assets/css/buzzstore-admin.css');
     }
 }
 add_action('admin_enqueue_scripts', 'buzzstore_media_scripts');
@@ -367,3 +395,38 @@ function buzzstore_customize_partial_blogname() {
 function buzzstore_customize_partial_blogdescription() {
 	bloginfo( 'description' );
 }
+
+
+function wc_get_gallery_image( $attachment_id, $main_image = false ) {
+    $full_size         = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
+    $full_src          = wp_get_attachment_image_src( $attachment_id, $full_size );
+
+    return $full_src[0];
+}
+
+function woocommerce_output_title_and_hint() {
+    ?>
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 upper-page-title">
+                    <?php
+                    the_title( '<h1><span>Sell Your </span>', '</h1>' );
+                    ?>
+                    <div class="info-box-up">You’re nearly there! Please fill in the Condition Options screen and the price will update accordingly.
+                        Once finished, click the Proceed To Basket button to add the item to your WeBuyAnyMacs.com shopping basket.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+add_action( 'woocommerce_before_single_product', 'woocommerce_output_title_and_hint', 10 );
+
+add_action('woocommerce_after_shop_loop_item','displaying_product_attributes');
+
+
+require buzzstore_file_directory('part-exchange-list.php');
+
+require buzzstore_file_directory('assets/async/custom_ajax.php');

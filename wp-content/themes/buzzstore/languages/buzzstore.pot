@@ -3,18 +3,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-09 09:24+0000\n"
+"POT-Creation-Date: 2018-07-09 06:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
 "Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco - https://localise.biz/"
+"X-Generator: Loco https://localise.biz/"
 
-#: 404.php:18 sparklethemes/functions.php:72
+#: 404.php:18 sparklethemes/functions.php:78
 msgid "404"
 msgstr ""
 
@@ -88,8 +88,8 @@ msgstr ""
 msgid "Right Sidebar Widget Area"
 msgstr ""
 
-#: functions.php:121 functions.php:131 functions.php:151 functions.php:161
-#: functions.php:171 functions.php:181
+#: functions.php:121 functions.php:131 functions.php:158 functions.php:168
+#: functions.php:178 functions.php:188
 msgid "Add widgets here."
 msgstr ""
 
@@ -98,37 +98,46 @@ msgid "Left Sidebar Widget Area"
 msgstr ""
 
 #: functions.php:139
+#, php-format
+msgid ""
+"Displays widgets on home page main content area.%1$s Note : Please go to "
+"%2$s \"Static Front Page\"%3$s setting, Select \"A static page\" then "
+"\"Front page\" and \"Posts page\" to show added widgets"
+msgstr ""
+
+#: functions.php:142
+msgid ""
+"Displays widgets on Front/Home page. Note : First Create Page and Select "
+"\"Page Attributes Template\"( SpiderMag - FrontPage ) then Please go to "
+"Setting => Reading, Select \"A static page\" then \"Front page\" and add "
+"widgets to show on Home Page"
+msgstr ""
+
+#: functions.php:146
 msgid "Buzz : Home Main Widget Area"
 msgstr ""
 
-#: functions.php:141
-msgid ""
-"Add widgets here. (Note :- Buzz : Home Main Widget only wroking when you are "
-"create a new page & select PageTemplate: Front Page & set In Front Page, "
-"that you created"
-msgstr ""
-
-#: functions.php:149
+#: functions.php:156
 msgid "Footer Widget Area One"
 msgstr ""
 
-#: functions.php:159
+#: functions.php:166
 msgid "Footer Widget Area Two"
 msgstr ""
 
-#: functions.php:169
+#: functions.php:176
 msgid "Footer Widget Area Three"
 msgstr ""
 
-#: functions.php:179
+#: functions.php:186
 msgid "Footer Widget Area Four"
 msgstr ""
 
-#: functions.php:284 sparklethemes/buzzwidgets/widgets-fields.php:228
+#: functions.php:291 sparklethemes/buzzwidgets/widgets-fields.php:228
 msgid "Upload"
 msgstr ""
 
-#: functions.php:285 sparklethemes/buzzwidgets/widgets-fields.php:230
+#: functions.php:292 sparklethemes/buzzwidgets/widgets-fields.php:230
 #: sparklethemes/buzzwidgets/widgets-fields.php:238
 msgid "Remove"
 msgstr ""
@@ -137,84 +146,84 @@ msgstr ""
 msgid "Front Page"
 msgstr ""
 
-#: sparklethemes/functions.php:33
+#: sparklethemes/functions.php:36
 #, php-format
 msgid "Search Results for : %1$s"
 msgstr ""
 
-#: sparklethemes/functions.php:69
+#: sparklethemes/functions.php:75
 #, php-format
 msgid "Search Results for : %s"
 msgstr ""
 
-#: sparklethemes/functions.php:70
+#: sparklethemes/functions.php:76
 msgid "Nothing Found"
 msgstr ""
 
-#: sparklethemes/functions.php:183
+#: sparklethemes/functions.php:189
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: sparklethemes/functions.php:187
+#: sparklethemes/functions.php:193
 #, php-format
 msgid "<h4 class=\"buzz-media-heading\">%1$s</h4>"
 msgstr ""
 
-#: sparklethemes/functions.php:195
+#: sparklethemes/functions.php:201
 #, php-format
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: sparklethemes/functions.php:315
+#: sparklethemes/functions.php:321
 #, php-format
 msgid "%1$s WordPress Theme : by %2$s"
 msgstr ""
 
-#: sparklethemes/functions.php:406
+#: sparklethemes/functions.php:412
 msgid "Home"
 msgstr ""
 
-#: sparklethemes/functions.php:421
+#: sparklethemes/functions.php:427
 msgid "Archive by category"
 msgstr ""
 
-#: sparklethemes/functions.php:423
+#: sparklethemes/functions.php:429
 msgid "Search results for"
 msgstr ""
 
-#: sparklethemes/functions.php:489
+#: sparklethemes/functions.php:495
 msgid "Posts tagged"
 msgstr ""
 
-#: sparklethemes/functions.php:493
+#: sparklethemes/functions.php:499
 msgid "Articles posted by "
 msgstr ""
 
-#: sparklethemes/functions.php:495
+#: sparklethemes/functions.php:501
 msgid "Error 404"
 msgstr ""
 
-#: sparklethemes/functions.php:501
+#: sparklethemes/functions.php:507
 msgid "Page"
 msgstr ""
 
-#: sparklethemes/functions.php:542
+#: sparklethemes/functions.php:548
 msgid "Display Layout Options"
 msgstr ""
 
-#: sparklethemes/functions.php:554
+#: sparklethemes/functions.php:560
 msgid "Left Sidebar"
 msgstr ""
 
-#: sparklethemes/functions.php:559
+#: sparklethemes/functions.php:565
 msgid "Right (Default)"
 msgstr ""
 
-#: sparklethemes/functions.php:564
+#: sparklethemes/functions.php:570
 msgid "Full width"
 msgstr ""
 
-#: sparklethemes/functions.php:569
+#: sparklethemes/functions.php:575
 msgid "Both Sidebar"
 msgstr ""
 
@@ -579,12 +588,12 @@ msgid "Web Layout Options"
 msgstr ""
 
 #: sparklethemes/customizer/customizer.php:120
-#: sparklethemes/customizer/customizer.php:1020
+#: sparklethemes/customizer/customizer.php:1030
 msgid "Boxed Layout"
 msgstr ""
 
 #: sparklethemes/customizer/customizer.php:121
-#: sparklethemes/customizer/customizer.php:1021
+#: sparklethemes/customizer/customizer.php:1031
 msgid "Full Width Layout"
 msgstr ""
 
@@ -616,22 +625,22 @@ msgstr ""
 #: sparklethemes/customizer/customizer.php:166
 #: sparklethemes/customizer/customizer.php:449
 #: sparklethemes/customizer/customizer.php:487
-#: sparklethemes/customizer/customizer.php:597
-#: sparklethemes/customizer/customizer.php:633
-#: sparklethemes/customizer/customizer.php:668
-#: sparklethemes/customizer/customizer.php:836
-#: sparklethemes/customizer/customizer.php:1071
+#: sparklethemes/customizer/customizer.php:607
+#: sparklethemes/customizer/customizer.php:643
+#: sparklethemes/customizer/customizer.php:678
+#: sparklethemes/customizer/customizer.php:846
+#: sparklethemes/customizer/customizer.php:1081
 msgid "Enable"
 msgstr ""
 
 #: sparklethemes/customizer/customizer.php:167
 #: sparklethemes/customizer/customizer.php:450
 #: sparklethemes/customizer/customizer.php:488
-#: sparklethemes/customizer/customizer.php:598
-#: sparklethemes/customizer/customizer.php:634
-#: sparklethemes/customizer/customizer.php:669
-#: sparklethemes/customizer/customizer.php:837
-#: sparklethemes/customizer/customizer.php:1072
+#: sparklethemes/customizer/customizer.php:608
+#: sparklethemes/customizer/customizer.php:644
+#: sparklethemes/customizer/customizer.php:679
+#: sparklethemes/customizer/customizer.php:847
+#: sparklethemes/customizer/customizer.php:1082
 msgid "Disable"
 msgstr ""
 
@@ -656,17 +665,17 @@ msgid "Choose any one options as you want and enter related Information"
 msgstr ""
 
 #: sparklethemes/customizer/customizer.php:207
-#: sparklethemes/customizer/customizer.php:943
+#: sparklethemes/customizer/customizer.php:953
 msgid "Social Icons"
 msgstr ""
 
 #: sparklethemes/customizer/customizer.php:208
-#: sparklethemes/customizer/customizer.php:944
+#: sparklethemes/customizer/customizer.php:954
 msgid "Ton Nav Menu"
 msgstr ""
 
 #: sparklethemes/customizer/customizer.php:209
-#: sparklethemes/customizer/customizer.php:945
+#: sparklethemes/customizer/customizer.php:955
 msgid "Quick Information"
 msgstr ""
 
@@ -798,10 +807,10 @@ msgid "Enable/Disable Icon Text Block Section"
 msgstr ""
 
 #: sparklethemes/customizer/customizer.php:483
-#: sparklethemes/customizer/customizer.php:593
-#: sparklethemes/customizer/customizer.php:629
-#: sparklethemes/customizer/customizer.php:664
-#: sparklethemes/customizer/customizer.php:832
+#: sparklethemes/customizer/customizer.php:603
+#: sparklethemes/customizer/customizer.php:639
+#: sparklethemes/customizer/customizer.php:674
+#: sparklethemes/customizer/customizer.php:842
 msgid "Choose any options as you want"
 msgstr ""
 
@@ -837,131 +846,135 @@ msgid "Thired Icon Block Title Text"
 msgstr ""
 
 #: sparklethemes/customizer/customizer.php:573
+msgid "Buzz : Home Main Widget Are"
+msgstr ""
+
+#: sparklethemes/customizer/customizer.php:583
 msgid "Manage breadcrumbs settings here as you want"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:575
+#: sparklethemes/customizer/customizer.php:585
 msgid "Breadcrumbs Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:580
+#: sparklethemes/customizer/customizer.php:590
 msgid "WooCommerce Breadcrumbs"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:592
+#: sparklethemes/customizer/customizer.php:602
 msgid "Enable/Disable Breadcrumbs Section"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:608
-#: sparklethemes/customizer/customizer.php:644
-#: sparklethemes/customizer/customizer.php:679
+#: sparklethemes/customizer/customizer.php:618
+#: sparklethemes/customizer/customizer.php:654
+#: sparklethemes/customizer/customizer.php:689
 msgid "Upload Breadcrumbs Background Image"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:616
+#: sparklethemes/customizer/customizer.php:626
 msgid "Normal Page Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:628
-#: sparklethemes/customizer/customizer.php:663
+#: sparklethemes/customizer/customizer.php:638
+#: sparklethemes/customizer/customizer.php:673
 msgid "Enable or Disable Breadcrumbs Section"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:651
+#: sparklethemes/customizer/customizer.php:661
 msgid "Posts/Archive Page Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:691
+#: sparklethemes/customizer/customizer.php:701
 msgid ""
 "Change the Design Settings and Options Settings of WooCommerce here as you "
 "want"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:693
+#: sparklethemes/customizer/customizer.php:703
 msgid "WooCommerce Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:698
+#: sparklethemes/customizer/customizer.php:708
 msgid "Category Pages Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:710
+#: sparklethemes/customizer/customizer.php:720
 msgid "Select WooCommerce Category Layout"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:729
+#: sparklethemes/customizer/customizer.php:739
 msgid "Display Number Row"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:746
+#: sparklethemes/customizer/customizer.php:756
 msgid "Enter Display Number Products Per Page"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:756
+#: sparklethemes/customizer/customizer.php:766
 msgid "Single Product Page Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:768
+#: sparklethemes/customizer/customizer.php:778
 msgid "Select WooCommerce Single Layout"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:786
+#: sparklethemes/customizer/customizer.php:796
 msgid "Enter Display Number of Upsells products"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:799
+#: sparklethemes/customizer/customizer.php:809
 msgid "Enter Display Number of related products"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:810
+#: sparklethemes/customizer/customizer.php:820
 msgid "Footer Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:819
+#: sparklethemes/customizer/customizer.php:829
 msgid "Footer Area Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:831
+#: sparklethemes/customizer/customizer.php:841
 msgid "Enable or Disable Footer Area Two Section"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:849
+#: sparklethemes/customizer/customizer.php:859
 msgid "Footer Area Two Background Colors"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:850
+#: sparklethemes/customizer/customizer.php:860
 msgid "Select default footer area two background color as you want"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:859
+#: sparklethemes/customizer/customizer.php:869
 msgid "Sub Footer Area Settings"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:873
+#: sparklethemes/customizer/customizer.php:883
 msgid "Footer Buttom Area Background Colors"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:874
+#: sparklethemes/customizer/customizer.php:884
 msgid "Select default footer buttom area background color as you want"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:886
+#: sparklethemes/customizer/customizer.php:896
 msgid "Footer Bottom Left Content (Copyright Text)"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:896
+#: sparklethemes/customizer/customizer.php:906
 msgid "Boxed"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:897
+#: sparklethemes/customizer/customizer.php:907
 msgid "Full Width"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:1005
+#: sparklethemes/customizer/customizer.php:1015
 msgid "Yes"
 msgstr ""
 
-#: sparklethemes/customizer/customizer.php:1006
+#: sparklethemes/customizer/customizer.php:1016
 msgid "No"
 msgstr ""
 
@@ -1036,12 +1049,16 @@ msgstr ""
 msgid "Sale!"
 msgstr ""
 
-#: woocommerce/global/quantity-input.php:36
+#: woocommerce/global/quantity-input.php:33
 msgctxt "Product quantity input tooltip"
 msgid "Qty"
 msgstr ""
 
-#: sparklethemes/admin/about-theme/buzzstore-about.php:33
+#: woocommerce/global/quantity-input.php:33
+#, php-format
+msgid "%s quantity"
+msgstr ""
+
 #: sparklethemes/admin/about-theme/buzzstore-about.php:33
 #: sparklethemes/admin/about-theme/buzzstore-about.php:108
 msgid "About"

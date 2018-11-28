@@ -1898,6 +1898,7 @@ if ( ! function_exists( 'woocommerce_shipping_calculator' ) ) {
 	}
 }
 
+
 if ( ! function_exists( 'woocommerce_cart_totals' ) ) {
 
 	/**

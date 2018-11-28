@@ -7,7 +7,7 @@ Contributors: sparklewpthemes
 Tags: one-column, two-columns, right-sidebar, left-sidebar, custom-background, custom-menu, translation-ready, featured-images, theme-options, custom-logo, e-commerce, footer-widgets
 
 Requires at least: 4.0
-Tested up to: 4.8
+Tested up to: 4.9.6
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -84,6 +84,28 @@ https://pixabay.com/en/stainless-background-white-bracelet-878333/ - License CC0
 
 
 == Changelog ==
+
+= 1.1.7 9th July 2018 =
+
+** Update overright WooCommerce template and function make theme fully compatible with latest version of WooCommerce 3.4.0 version.
+** Fixed the Add to Cart & blog design issue.
+** Remove the deprecated hooks. and update compatible hooks.
+
+
+= 1.1.6 14th February 2018 =
+
+** Update overright WooCommerce template and function make theme fully compatible with latest version of Woo-commerce 3.3.1 version.
+** Fixed the breadcrumbs menu issue.
+** Fixed the small style issue.
+
+= 1.1.5 27th December 2017 =
+
+** Fixed the widget number increase issue.
+** Updated .pot file.
+** Add the main widget area on customizer.
+** Fixed the customizer design issue.
+** Fixed the small style issue.
+
 
 = 1.1.4 9th November 2017 =
 

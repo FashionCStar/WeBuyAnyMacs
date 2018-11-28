@@ -149,7 +149,7 @@ function buzzstore_widgets_show_widget_field($instance = '', $widget_field = '',
             ?>
             <p>
                 <label for="<?php echo esc_attr($instance->get_field_id($buzzstore_widgets_name)); ?>"><?php echo esc_attr($buzzstore_widgets_title); ?> :</label><br />
-                <input name="<?php echo esc_attr($instance->get_field_name($buzzstore_widgets_name)); ?>" type="number" step="4" min="4" id="<?php echo esc_attr($instance->get_field_id($buzzstore_widgets_name)); ?>" value="<?php echo esc_attr($buzzstore_field_value); ?>" class="widefat" />
+                <input name="<?php echo esc_attr($instance->get_field_name($buzzstore_widgets_name)); ?>" type="number" id="<?php echo esc_attr($instance->get_field_id($buzzstore_widgets_name)); ?>" value="<?php echo esc_attr($buzzstore_field_value); ?>" class="widefat" />
 
                 <?php if (isset($buzzstore_widgets_description)) { ?>
                     <br />

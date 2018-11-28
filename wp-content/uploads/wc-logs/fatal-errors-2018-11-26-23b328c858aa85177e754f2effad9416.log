@@ -1,0 +1,10 @@
+2018-11-26T04:36:15+00:00 CRITICAL syntax error, unexpected ';' in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\cart\proceed-to-checkout-button.php on line 27
+
+2018-11-26T09:44:19+00:00 CRITICAL require(): Failed opening required 'F:\develop\WordPress\webuyanymacs/wp-content/themes/buzzstore/part-exchange-list' (include_path='E:\xampp\php\PEAR') in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\functions.php on line 430
+
+2018-11-26T14:19:09+00:00 CRITICAL syntax error, unexpected ''post_author'' (T_CONSTANT_ENCAPSED_STRING), expecting ')' in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\custom_ajax.php on line 53
+
+2018-11-26T14:20:23+00:00 CRITICAL syntax error, unexpected ',' in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\custom_ajax.php on line 52
+
+2018-11-26T14:44:05+00:00 CRITICAL Object of class DateTime could not be converted to string in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\assets\async\custom_ajax.php on line 53
+
