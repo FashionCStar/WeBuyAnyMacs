@@ -2848,7 +2848,15 @@ a#back_to_prev_step:hover {
 }
 
 .nav4 ul li {
-    width: 25%;
+    width: 33%;
+}
+
+.no_item_in_basket a{
+    color: #13bfc2;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-decoration: none;
+    border-bottom: 1px dotted #48beeb;
 }
 
 .margin-from-top {
@@ -3050,13 +3058,13 @@ a#back_to_prev_step:hover {
 }
 
 .wizard-inner input[type="text"], .wizard-inner input[type="tel"],
-.wizard-inner input[type="email"], .wizard-inner input[type="number"] {
-    /*background: #FFF;*/
-    /*width: 100%;*/
-    /*border-radius: 5px;*/
-    /*border: 0;*/
-    /*outline: none;*/
-    /*display: block;*/
+.wizard-inner input[type="email"], .wizard-inner input[type="number"], .wizard-inner textarea {
+    background: #FFF;
+    width: 100%;
+    border-radius: 5px;
+    border: 0;
+    outline: none;
+    display: block;
     font-family: "Quicksand", sans-serif;
     font-weight: bold;
     font-size: 1.5rem;
@@ -3086,6 +3094,10 @@ a#back_to_prev_step:hover {
 .select2-container span.select2-dropdown--below {
     font-size: 1.5rem;
     font-family: "Quicksand", sans-serif;
+}
+
+.woocommerce form .form-row .select2-container {
+    width:100% !important;
 }
 
 .wizard-inner select:hover {
@@ -3132,7 +3144,7 @@ a#back_to_prev_step:hover {
     text-align:center;
 }
 
-.wizard-inner a.button.alt {
+.wizard-inner a.button.alt, .wizard-inner button.button.alt, .wizard-inner a.btn_next {
     background: #212121;
     width: 100%;
     border-radius: 5px;
@@ -3146,6 +3158,24 @@ a#back_to_prev_step:hover {
     padding: 12px;
     margin-top: 20px;
     text-align:center;
+    height: 48px;
+}
+
+.wizard-inner a.btn_prev {
+    background: #212121;
+    width: 100%;
+    border-radius: 5px;
+    border: 0;
+    outline: none;
+    display: block;
+    font-family: "Quicksand",sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+    padding: 12px;
+    margin-top: 20px;
+    text-align:center;
+    height: 48px;
 }
 
 
@@ -3618,16 +3648,32 @@ a#back_to_prev_step:hover {
     font-weight: 700
 }
 
-.condition-options .items-seal-list label:hover {
+.condition-options .items-seal-list label label {
+    text-align: left;
+    font-family: "Quicksand", sans-serif;
+    font-size: 1em;
+    border-radius: 5px;
+    padding: 15px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+    display: inline-block;
+    color: #7b7b7b;
+    font-weight: 700
+}
+
+.condition-options .items-seal-list label:hover, .condition-options .items-seal-list label label:hover {
     background: #e0e0e0
 }
 
-.condition-options .items-seal-list label i {
+.condition-options .items-seal-list label i, .condition-options .items-seal-list label label i {
     color: #d5d5d5;
     margin-right: 10px;
 }
 
-.condition-options .items-seal-list label i:before {
+.condition-options .items-seal-list label i:before, .condition-options .items-seal-list label label i:before {
     content: "\f10c"
 }
 
@@ -3873,7 +3919,7 @@ a#back_to_prev_step:hover {
     top: 18px;
     right: 0;
     left: 0;
-    width: 75%;
+    width: 66%;
 }
 
 .ask-wb-nav ul li:before {

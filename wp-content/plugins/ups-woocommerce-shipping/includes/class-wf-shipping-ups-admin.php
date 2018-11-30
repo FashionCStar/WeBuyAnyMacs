@@ -1744,41 +1744,40 @@ class WF_Shipping_UPS_Admin
 			$this->wcsups 			= new WF_Shipping_UPS( $order );
 			$package_data_array	= array();		
 
-		if(!isset($ship_options['return_label']) || !$ship_options['return_label']){ // If return label is printing, cod can't be applied
-		$this->wcsups->wf_set_cod_details($order);
-	}
+		    if(!isset($ship_options['return_label']) || !$ship_options['return_label']){ // If return label is printing, cod can't be applied
+                $this->wcsups->wf_set_cod_details($order);
+            }
 	
-	// Set Insurance value false
-	$order_subtotal = $order->get_subtotal();
-	if( $order_subtotal < $this->min_order_amount_for_insurance ) {
-		$this->wcsups->insuredvalue = false;
-	}
+            // Set Insurance value false
+            $order_subtotal = $order->get_subtotal();
+            if( $order_subtotal < $this->min_order_amount_for_insurance ) {
+                $this->wcsups->insuredvalue = false;
+            }
 
-	$service_code=get_post_meta($order->id,'wf_ups_selected_service',1);
-	if($service_code)
-	{
-		$this->wcsups->wf_set_service_code($service_code);
-			if(in_array($service_code, array(92,93,94,95))){// Insurance value doen't wprk with sure post services
-			$this->wcsups->insuredvalue = false;
-		}
-	}
+            $service_code=get_post_meta($order->id,'wf_ups_selected_service',1);
+            if($service_code) {
+                $this->wcsups->wf_set_service_code($service_code);
+                if(in_array($service_code, array(92,93,94,95))) {// Insurance value doen't wprk with sure post services
+                    $this->wcsups->insuredvalue = false;
+                }
+            }
 
-	$package_params	=	array();
-	if(isset($ship_options['delivery_confirmation_applicable'])){
-		$package_params['delivery_confirmation_applicable']	=	$ship_options['delivery_confirmation_applicable'];
-	}
+            $package_params	=	array();
+            if(isset($ship_options['delivery_confirmation_applicable'])){
+                $package_params['delivery_confirmation_applicable']	=	$ship_options['delivery_confirmation_applicable'];
+            }
 
-	$packing_method  	= isset( $this->settings['packing_method'] ) ? $this->settings['packing_method'] : 'per_item';
-	$package_data = array();
-	foreach( $packages as $key => $package ) {
-		$package = apply_filters( 'wf_customize_package_on_generate_label', $package, $order_id );		//Filter to customize the package, for example to support bundle product
-		$temp_package_data 		= $this->wcsups->wf_get_api_rate_box_data( $package, $packing_method, $package_params);
-		if(is_array($temp_package_data) ) {
-			$package_data = array_merge($package_data, $temp_package_data);
-		}
-	}
-	return $package_data;
-}
+            $packing_method  	= isset( $this->settings['packing_method'] ) ? $this->settings['packing_method'] : 'per_item';
+            $package_data = array();
+            foreach( $packages as $key => $package ) {
+                $package = apply_filters( 'wf_customize_package_on_generate_label', $package, $order_id );		//Filter to customize the package, for example to support bundle product
+                $temp_package_data 		= $this->wcsups->wf_get_api_rate_box_data( $package, $packing_method, $package_params);
+                if(is_array($temp_package_data) ) {
+                    $package_data = array_merge($package_data, $temp_package_data);
+                }
+            }
+            return $package_data;
+        }
 
 function wf_create_package( $order, $to_address=array() ){
 

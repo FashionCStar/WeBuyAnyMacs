@@ -1,0 +1,36 @@
+2018-11-29T09:59:22+00:00 CRITICAL syntax error, unexpected 'public' (T_PUBLIC) in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 440
+
+2018-11-29T10:01:23+00:00 CRITICAL syntax error, unexpected 'public' (T_PUBLIC) in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 440
+
+2018-11-29T12:37:23+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T12:39:22+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T12:41:07+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T12:42:30+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T12:42:31+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T12:42:31+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T12:42:32+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T12:42:33+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T12:42:34+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T13:00:25+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T13:00:26+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T13:00:27+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T13:00:27+00:00 CRITICAL Using $this when not in object context in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 454
+
+2018-11-29T13:03:43+00:00 CRITICAL syntax error, unexpected 'require' (T_REQUIRE) in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\functions.php on line 456
+
+2018-11-29T14:26:45+00:00 CRITICAL Cannot use object of type WC_Order as array in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\woocommerce\checkout\thankyou.php on line 113
+
+2018-11-29T14:31:27+00:00 CRITICAL Call to undefined method WC_Order::get_time_created() in F:\develop\WordPress\wbam\wp-content\themes\buzzstore\woocommerce\checkout\thankyou.php on line 113
+

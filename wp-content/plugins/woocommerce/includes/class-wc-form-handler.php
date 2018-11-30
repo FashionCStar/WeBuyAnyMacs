@@ -562,7 +562,8 @@ class WC_Form_Handler {
 					$removed_notice = sprintf( __( '%s removed.', 'woocommerce' ), $item_removed_title );
 				}
 
-				wc_add_notice( $removed_notice );
+				/* remove item message*/
+//				wc_add_notice( $removed_notice );
 			}
 
 			$referer  = wp_get_referer() ? remove_query_arg( array( 'remove_item', 'add-to-cart', 'added-to-cart', 'order_again', '_wpnonce' ), add_query_arg( 'removed_item', '1', wp_get_referer() ) ) : wc_get_cart_url();

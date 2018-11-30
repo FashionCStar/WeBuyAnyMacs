@@ -41,9 +41,9 @@ global $woocommerce;
                 <i class="fa ok"></i>
                 <div class="timeline-label">Personal Info</div>
             </li>
-            <li data-target="#caren-slider"><i class="fa ok"></i>
-                <div class="timeline-label">Shipment</div>
-            </li>
+<!--            <li data-target="#caren-slider"><i class="fa ok"></i>-->
+<!--                <div class="timeline-label">Shipment</div>-->
+<!--            </li>-->
             <li data-target="#caren-slider"><i class="fa ok"></i>
                 <div class="timeline-label">Order Complete</div>
             </li>
@@ -176,7 +176,7 @@ global $woocommerce;
                 <div class="we-pay-basket">We Pay You <span><?php echo $woocommerce->cart->get_cart_total() ?></span></div>
 
 <!--                <div class="btn_next nomargin2  ">-->
-                    <?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
+                <?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
 <!--                </div>-->
                 <?php do_action( 'woocommerce_after_cart_totals' ); ?>
             </div>
@@ -193,7 +193,7 @@ global $woocommerce;
      * @hooked woocommerce_cross_sell_display
      * @hooked woocommerce_cart_totals - 10
      */
-    do_action('woocommerce_cart_collaterals');
+//    do_action('woocommerce_cart_collaterals');
     ?>
 </div>
 

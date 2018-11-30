@@ -43,9 +43,9 @@ if ( ! wc_coupons_enabled() ) { // @codingStandardsIgnoreLine.
                 <i class="fa ok"></i>
                 <div class="timeline-label">Personal Info</div>
             </li>
-            <li data-target="#caren-slider"><i class="fa ok"></i>
-                <div class="timeline-label">Shipment</div>
-            </li>
+<!--            <li data-target="#caren-slider"><i class="fa ok"></i>-->
+<!--                <div class="timeline-label">Shipment</div>-->
+<!--            </li>-->
             <li data-target="#caren-slider"><i class="fa ok"></i>
                 <div class="timeline-label">Order Complete</div>
             </li>

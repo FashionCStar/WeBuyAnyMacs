@@ -49,15 +49,30 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 
 	<?php endif; ?>
 
-	<h3 id="order_review_heading"><?php esc_html_e( 'Your order', 'woocommerce' ); ?></h3>
+    <div class="row">
+        <div class="col-sm-6">
+            <a href="<?php echo esc_url( wc_get_cart_url() );?>" class="btn_prev">
+                <?php esc_html_e( '< PREVIOUS STEP - YOUR BASKET', 'woocommerce' ); ?>
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <?php
+            $innerHTML .= '<button type="submit" class="button alt btn_next" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . esc_attr( $order_button_text ) . '">' . esc_html( "NEXT STEP - COMPLETE ORDER >" ) . '</button>';
+            echo apply_filters( 'woocommerce_order_button_html', $innerHTML ); // @codingStandardsIgnoreLine
+            ?>
+        </div>
+    </div>
 
-	<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
+
+<!--    <h3 id="order_review_heading">--><?php //esc_html_e( 'Your order', 'woocommerce' ); ?><!--</h3>-->
+
+<!--	--><?php //do_action( 'woocommerce_checkout_before_order_review' ); ?>
 
 	<div id="order_review" class="woocommerce-checkout-review-order">
 		<?php do_action( 'woocommerce_checkout_order_review' ); ?>
 	</div>
 
-	<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
+<!--	--><?php //do_action( 'woocommerce_checkout_after_order_review' ); ?>
 
 </form>
 

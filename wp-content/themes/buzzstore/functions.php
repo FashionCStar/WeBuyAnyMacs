@@ -422,10 +422,36 @@ function woocommerce_output_title_and_hint() {
     <?php
 }
 
+function wc_empty_cart_message_custom() {
+    echo '<div style="width: 80%; margin: auto;">';
+        echo '<div id="basket_items_content">';
+            echo '<div class="no_item_in_basket">';
+                echo '<i class="fa"></i>';
+                echo '<p class="cart-empty">Your shopping basket is empty. Why not add some items?';
+                    echo '<strong><a href="'. esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ).'">';
+                    echo esc_html_e( 'Return to shop', 'woocommerce' );
+                    echo '</a></strong>';
+                echo '</p>';
+            echo '</div>';
+        echo '</div>';
+    echo '</div>';
+}
+
+//function thankyou_page_bankinfo( $order_id ) {
+//
+//    if ( $this->instructions ) {
+//        echo wp_kses_post( wpautop( wptexturize( wp_kses_post( $this->instructions ) ) ) );
+//    }
+//    $this->bank_details( $order_id );
+//}
+
 add_action( 'woocommerce_before_single_product', 'woocommerce_output_title_and_hint', 10 );
 
 add_action('woocommerce_after_shop_loop_item','displaying_product_attributes');
 
+add_action( 'woocommerce_cart_is_empty_custom', 'wc_empty_cart_message_custom', 10 );
+
+//add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page_bankinfo' ) );
 
 require buzzstore_file_directory('part-exchange-list.php');
 

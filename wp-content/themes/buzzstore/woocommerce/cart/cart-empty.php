@@ -20,12 +20,46 @@ defined( 'ABSPATH' ) || exit;
 /*
  * @hooked wc_empty_cart_message - 10
  */
-do_action( 'woocommerce_cart_is_empty' );
 
-if ( wc_get_page_id( 'shop' ) > 0 ) : ?>
-	<p class="return-to-shop">
-		<a class="button wc-backward" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>">
-			<?php esc_html_e( 'Return to shop', 'woocommerce' ); ?>
-		</a>
-	</p>
-<?php endif; ?>
+?>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 upper-page-title">
+            <h1>Your Basket</h1>
+        </div>
+    </div>
+</div>
+
+<div id="basket_order_timeline">
+
+    <div class="ask-wb-nav nav4">
+        <ul class="carousel-indicators">
+            <li data-target="#caren-slider" class="active">
+                <i class="fa ok"></i>
+                <div class="timeline-label">Your Basket</div>
+            </li>
+            <li data-target="#caren-slider">
+                <i class="fa ok"></i>
+                <div class="timeline-label">Personal Info</div>
+            </li>
+<!--            <li data-target="#caren-slider"><i class="fa ok"></i>-->
+<!--                <div class="timeline-label">Shipment</div>-->
+<!--            </li>-->
+            <li data-target="#caren-slider"><i class="fa ok"></i>
+                <div class="timeline-label">Order Complete</div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php
+do_action( 'woocommerce_cart_is_empty_custom' );
+
+//if ( wc_get_page_id( 'shop' ) > 0 ) : ?>
+<!--	<p class="return-to-shop">-->
+<!--		<a class="button wc-backward" href="--><?php //echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?><!--">-->
+<!--			--><?php //esc_html_e( 'Return to shop', 'woocommerce' ); ?>
+<!--		</a>-->
+<!--	</p>-->
+<?php //endif; ?>
+

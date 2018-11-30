@@ -51,35 +51,10 @@ global $post;
                     <div class="col-md-8">
                         <div class="condition-options" id="condition-options">
                             <div id="inner_options">
-                                <div id="loader_section">
-                                    <div id="msg_add_to_basket">
-                                        <i class="fa"></i>
-                                        Thanks for your order.<br>What to do next?<br>
-                                        If you finished,please check the
-                                        <a href="/Basket/">Basket</a>
-                                        for complete your order.<br>
-                                        If you do have more Items please add them to basket.
-                                    </div>
-                                    <div class="sk-fading-circle" id="sk-fading-circle">
-                                        <div class="sk-circle1 sk-circle"></div>
-                                        <div class="sk-circle2 sk-circle"></div>
-                                        <div class="sk-circle3 sk-circle"></div>
-                                        <div class="sk-circle4 sk-circle"></div>
-                                        <div class="sk-circle5 sk-circle"></div>
-                                        <div class="sk-circle6 sk-circle"></div>
-                                        <div class="sk-circle7 sk-circle"></div>
-                                        <div class="sk-circle8 sk-circle"></div>
-                                        <div class="sk-circle9 sk-circle"></div>
-                                        <div class="sk-circle10 sk-circle"></div>
-                                        <div class="sk-circle11 sk-circle"></div>
-                                        <div class="sk-circle12 sk-circle"></div>
-                                    </div>
 
-                                </div>
                                 <div class="in-title">
                                     Condition Options
                                 </div>
-
 
                                 <div class="row-items-title">
                                     The condition of this item is
@@ -114,10 +89,24 @@ global $post;
                                                     <i class="fa"></i>
                                                     GRADE C - Fully Working/Major Scratches or Dents
                                                 </label>
-                                                <input name="used-list" wb-data-ratio="10" type="radio" id="grade4">
+
                                                 <label for="grade4">
-                                                    <i class="fa"></i>
                                                     FAULTY - Not Working/Damaged/Missing Parts/Other
+                                                    <input name="used-list" wb-data-ratio="30" type="radio" id="grade4_1">
+                                                    <label for="grade4_1">
+                                                        <i class="fa"></i>
+                                                        GRADE A - Fully Working/Major Scratches or Dents
+                                                    </label>
+                                                    <input name="used-list" wb-data-ratio="20" type="radio" id="grade4_2">
+                                                    <label for="grade4_2">
+                                                        <i class="fa"></i>
+                                                        GRADE B - Fully Working/Major Scratches or Dents
+                                                    </label>
+                                                    <input name="used-list" wb-data-ratio="10" type="radio" id="grade4_3">
+                                                    <label for="grade4_3">
+                                                        <i class="fa"></i>
+                                                        GRADE C - Fully Working/Major Scratches or Dents
+                                                    </label>
                                                 </label>
                                             </div>
 
