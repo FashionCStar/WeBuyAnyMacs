@@ -29,9 +29,11 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                <div id="inner_tracker_search"><input maxlength="7" id="tracker_textbox"
-                                                      placeholder="Type your WBAE Tracking Code then Press Enter"
-                                                      type=text/></div>
+                <div id="inner_tracker_search">
+                    <form action="<?php echo home_url("/track-order/") ?>" type="POST">
+                        <input maxlength="7" id="tracker_textbox" name="track_id" placeholder="Type your WBAM Tracking Code then Press Enter" type="text">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -91,9 +93,11 @@
 <!--                    --><?php //wp_nav_menu(array('theme_location' => 'primary', 'menu_id' => 'primary-menu')); ?>
                     <a class="call-us-btn" href="tel:02036640642">CALL US NOW!</a>
                     <div class="in-item trackitems">
-                        <input type="text" placeholder="Enter Track Number"
-                               id="tracker_textbox2" class="trackboxitem">
-                        <i class="fa"></i>
+                        <form action="<?php echo home_url("/track-order/") ?>" type="POST">
+                            <input type="text" placeholder="Enter Track Number"
+                                   id="tracker_textbox2" name="track_id" class="trackboxitem">
+                            <i class="fa"></i>
+                        </form>
                     </div>
                     <div class="in-item searchitems">
                         <input type="text" placeholder="Search" id="autocomplete2">

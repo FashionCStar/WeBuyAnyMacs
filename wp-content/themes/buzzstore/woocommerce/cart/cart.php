@@ -51,7 +51,7 @@ global $woocommerce;
     </div>
 </div>
 
-<form class=" woocommerce-cart-form" id="basket_items_content" action="<?php echo esc_url(wc_get_cart_url()); ?>"
+<form class=" woocommerce-cart-form" id="basket_items_content" action="<?php echo esc_url(wc_get_checkout_url()); ?>"
       method="post">
     <?php do_action('woocommerce_before_cart_table'); ?>
 
@@ -169,23 +169,89 @@ global $woocommerce;
     </table>
 
     <div class="wbae-bask">
+
         <div class="row">
-            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <div id="payment_waitlist" class="items-seal-list-in">
+                    <h1 class="wait_title">Increase Payment Amount By Waiting</h1>
+
+                    <p class="wait_option">
+                        <input name="wait-payment" wb-data-ratio="0" type="radio" id="nowait_payment">
+                        <label for="nowait_payment">
+                            Directly
+                        </label>
+                    </p>
+                    <p class="wait_option">
+                        <input name="wait-payment" wb-data-ratio="<?php echo myprefix_get_theme_option('wait_payment14'); ?>" type="radio" id="wait_weeks2">
+                        <label for="wait_weeks2">
+                            Wait 14 Days
+                        </label>
+                    </p>
+                    <p class="wait_option">
+                        <input name="wait-payment" wb-data-ratio="<?php echo myprefix_get_theme_option('wait_payment28'); ?>" type="radio" id="wait_weeks4">
+                        <label for="wait_weeks4">
+                            Wait 28 Days
+                        </label>
+                    </p>
+                </div>
+            </div>
             <div class="col-sm-3"><img src="<?php echo get_template_directory_uri() . "/assets/images/basket-icon.png" ?>"></div>
             <div class="col-sm-5">
+                <input type="hidden" id="cart_extra_option" name="cart_extra_option" value="nowait_payment" >
+                <input type="hidden" id="cart_total_price" name="cart_total_price" wb-data-ratio="<?php echo $woocommerce->cart->total ?>" value="<?php echo $woocommerce->cart->total ?>" >
                 <div class="we-pay-basket">We Pay You <span><?php echo $woocommerce->cart->get_cart_total() ?></span></div>
 
 <!--                <div class="btn_next nomargin2  ">-->
                 <?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
 <!--                </div>-->
                 <?php do_action( 'woocommerce_after_cart_totals' ); ?>
+
             </div>
         </div>
     </div>
     <?php do_action('woocommerce_after_cart_table'); ?>
 </form>
 
-<div class="cart-collaterals">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#payment_waitlist #nowait_payment:radio").attr('checked', true);
+        $("#payment_waitlist input:radio").click(function () {
+            var cartTotal = parseInt($("#cart_total_price").attr("wb-data-ratio"));
+            var extra_percent = parseInt($('#payment_waitlist input:radio:checked').attr("wb-data-ratio"));
+            var extra_id = $('#payment_waitlist input:radio:checked').attr('id');
+
+            cartTotal = parseInt(cartTotal * (100 + extra_percent) / 100);
+            // $(".woocommerce-current_Price").val(cartTotal);
+            $('#cart_extra_option').val(extra_id);
+            $('#cart_total_price').val(cartTotal);
+            $('.we-pay-basket span.woocommerce-current_Price').animateNumbers(cartTotal, false, 500, "easeInOutQuad");
+
+            // $.ajax({
+            //     type: "POST"
+            //     ,dataType: 'json'
+            //     ,url: woocommerce_params.ajax_url
+            //     ,data: {
+            //         'action': 'set_cart_total_with_wait',
+            //         'cart_total': cartTotal,
+            //     },
+            //     error: function () {
+            //         alert("Oops look like something broke, please try later.");
+            //         return false;
+            //     },
+            //     success: function (r) {
+            //         console.log(r);
+            //         $('#cart_total_price').val(cartTotal);
+            //         $('.we-pay-basket span.woocommerce-current_Price').animateNumbers(cartTotal, false, 500, "easeInOutQuad");
+            //         return false;
+            //     }
+            // });
+        });
+    });
+</script>
+
+<div class="cart-collaterals" style="display:none;">
     <?php
     /**
      * Cart collaterals hook.
@@ -193,7 +259,7 @@ global $woocommerce;
      * @hooked woocommerce_cross_sell_display
      * @hooked woocommerce_cart_totals - 10
      */
-//    do_action('woocommerce_cart_collaterals');
+    do_action('woocommerce_cart_collaterals');
     ?>
 </div>
 

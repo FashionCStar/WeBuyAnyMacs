@@ -30,6 +30,14 @@ if ( post_password_required() ) {
 }
 global $product;
 global $post;
+
+$terms = get_the_terms ( $product->get_id(), 'product_cat' );
+foreach ( $terms as $term ) {
+    $cat_id = $term->id;
+    $cat = $term->name;
+    $cat_slug = $term->slug;
+}
+
 ?>
 
 <div class="product-info">
@@ -55,6 +63,22 @@ global $post;
                                 <div class="in-title">
                                     Condition Options
                                 </div>
+                                <?php if ($cat == "iPad" || $cat == "iPhone") {?>
+
+                                <div id="has_network">
+                                    <div class="row-items-title">Choose Network</div>
+                                    <div>
+                                        <select class="pro-network-list" id="network_list_price">
+                                            <option wb-data-ratio="<?php echo myprefix_get_theme_option($cat_slug."_unlocked"); ?>" value="0">Unlocked</option>
+                                            <option wb-data-ratio="<?php echo myprefix_get_theme_option($cat_slug."_three"); ?>" value="145e4adf-0241-4db9-9094-1827729f8f2b">Three</option>
+                                            <option wb-data-ratio="<?php echo myprefix_get_theme_option($cat_slug."_o2_tesco"); ?>" value="bcdfeced-e4ae-44c8-b1d9-2c1f4e4322f6">O2 - TESCO</option>
+                                            <option wb-data-ratio="<?php echo myprefix_get_theme_option($cat_slug."_orange_tmobile_ee"); ?>" value="229f36da-b126-433a-912c-51ace4c3d366">ORANGE - T MOBILE - EE</option>
+                                            <option wb-data-ratio="<?php echo myprefix_get_theme_option($cat_slug."_vodafone"); ?>" value="4498699a-8f7a-4e2f-be7e-affe4802e145">Vodafone</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <?php } ?>
 
                                 <div class="row-items-title">
                                     The condition of this item is
@@ -63,8 +87,7 @@ global $post;
                                     <div class="inner-tab-item">
                                         <input id="tab1" type="radio" checked="" name="tab-selector">
                                         <label class="tab-inner-btn" for="tab1">
-                                            <i class="fa"></i>New &amp;
-                                            Sealed
+                                            <i class="fa"></i>New &amp; Sealed
                                         </label>
                                         <input type="radio" name="tab-selector" id="tab2">
                                         <label class="tab-inner-btn" for="tab2">
@@ -72,40 +95,93 @@ global $post;
                                             Used
                                         </label>
                                         <div class="items-seal-list">
-                                            <input id="product_price_main" type="hidden" value="<?php $price = $product->get_price(); echo $price; ?>">
+                                            <input id="product_price_main" type="hidden" value="<?php
+                                            $available_variations = $product->get_available_variations();
+                                            $variation_id1=$available_variations[0]['variation_id'];
+                                            $variable_product1= new WC_Product_Variation( $variation_id1 );
+                                            $regular_price = $variable_product1 ->regular_price;
+
+                                            $price = $regular_price; echo $price; ?>">
+
                                             <input id="object_guid" type="hidden" value="075708d5-6fe6-4744-b7b3-5888a8759d49">
                                             <div id="grade_list" class="items-seal-list-in">
-                                                <input name="used-list" wb-data-ratio="70" type="radio" id="grade1">
-                                                <label for="grade1">
+                                                <input name="used-list" wb-data-ratio="70" type="radio" id="grade-a">
+                                                <label for="grade-a">
                                                     <i class="fa"></i>
                                                     GRADE A - Fully Working/No Scratches or Dents
                                                 </label>
-                                                <input name="used-list" wb-data-ratio="55" type="radio" id="grade2">
-                                                <label for="grade2"><i class="fa"></i>
+                                                <input name="used-list" wb-data-ratio="55" type="radio" id="grade-b">
+                                                <label for="grade-b"><i class="fa"></i>
                                                     GRADE B - Fully Working/Minor Scratches
                                                 </label>
-                                                <input name="used-list" wb-data-ratio="40" type="radio" id="grade3">
-                                                <label for="grade3">
+                                                <input name="used-list" wb-data-ratio="40" type="radio" id="grade-c">
+                                                <label for="grade-c">
                                                     <i class="fa"></i>
                                                     GRADE C - Fully Working/Major Scratches or Dents
                                                 </label>
 
                                                 <label for="grade4">
                                                     FAULTY - Not Working/Damaged/Missing Parts/Other
-                                                    <input name="used-list" wb-data-ratio="30" type="radio" id="grade4_1">
-                                                    <label for="grade4_1">
+                                                    <input name="used-list" wb-data-ratio="30" type="radio" id="faulty-a">
+                                                    <label for="faulty-a">
                                                         <i class="fa"></i>
-                                                        GRADE A - Fully Working/Major Scratches or Dents
+                                                        <?php
+                                                        if($cat=="MacBook Pro" || $cat=="MacBook Air"){
+                                                            echo "Faulty Screen";
+                                                        } else if($cat=="iMac") {
+                                                            echo "Faulty Screen";
+                                                        } else if($cat=="iPad" || $cat=="iPhone"){
+                                                            echo "Faulty Screen";
+                                                        } else {
+                                                            echo "Faulty Screen";
+                                                        }
+                                                        ?>
+
                                                     </label>
-                                                    <input name="used-list" wb-data-ratio="20" type="radio" id="grade4_2">
-                                                    <label for="grade4_2">
+                                                    <input name="used-list" wb-data-ratio="20" type="radio" id="faulty-b">
+                                                    <label for="faulty-b">
                                                         <i class="fa"></i>
-                                                        GRADE B - Fully Working/Major Scratches or Dents
+                                                        <?php
+                                                        if($cat=="MacBook Pro" || $cat=="MacBook Air"){
+                                                            echo "Faulty Keyboard/Trackpad/Battery";
+                                                        } else if($cat=="iMac") {
+                                                            echo "Faulty Fan";
+                                                        } else if($cat=="iPad" || $cat=="iPhone"){
+                                                            echo "Faulty Battery";
+                                                        } else {
+                                                            echo "Faulty Battery";
+                                                        }
+                                                        ?>
                                                     </label>
-                                                    <input name="used-list" wb-data-ratio="10" type="radio" id="grade4_3">
-                                                    <label for="grade4_3">
+                                                    <input name="used-list" wb-data-ratio="10" type="radio" id="faulty-c">
+                                                    <label for="faulty-c">
                                                         <i class="fa"></i>
-                                                        GRADE C - Fully Working/Major Scratches or Dents
+                                                        <?php
+                                                        if($cat=="MacBook Pro" || $cat=="MacBook Air"){
+                                                            echo "Faulty Hard Drive";
+                                                        } else if($cat=="iMac") {
+                                                            echo "Faulty Hard Drive";
+                                                        } else if($cat=="iPad" || $cat=="iPhone"){
+                                                            echo "Faulty Microphone/Speakers/Proximity Sensor";
+                                                        } else {
+                                                            echo "Faulty Hard Drive";
+                                                        }
+                                                        ?>
+                                                    </label>
+                                                    <input name="used-list" wb-data-ratio="5" type="radio" id="faulty-d">
+                                                    <label for="faulty-d">
+                                                        <i class="fa"></i>
+                                                        <?php
+                                                        if($cat=="MacBook Pro" || $cat=="MacBook Air"){
+                                                            echo "Multiple Faults/Logic Board Issues/Liquid Damage";
+                                                        } else if($cat=="iMac") {
+                                                            echo "Multiple Faults/Logic Board Issues";
+                                                        } else if($cat=="iPad" || $cat=="iPhone"){
+                                                            echo "Multiple Issues/Logic Board Issues/Liquid Damage";
+                                                        } else {
+                                                            echo "Multiple Faults";
+                                                        }
+                                                        ?>
                                                     </label>
                                                 </label>
                                             </div>
@@ -116,17 +192,14 @@ global $post;
                                                     <i class="fa"></i>
                                                     Boxed
                                                 </label>
-                                                <?php
-                                                    $cat = strip_tags($product->get_categories());
-                                                ?>
-                                                <input <?php if($cat == "iMac") echo 'style="display: none;"' ?> wb-data-ratio="25" name="used-list2" type="radio" id="box2">
+                                                <input <?php if($cat == "iMac") echo 'style="display: none;"' ?> wb-data-ratio="<?php echo myprefix_get_theme_option($cat_slug."_with_charger"); ?>" name="used-list2" type="radio" id="box2">
                                                 <label <?php if($cat == "iMac") echo 'style="display: none;"' ?> for="box2">
                                                     <i class="fa"></i>
                                                     <?php
                                                     echo $cat;
                                                     ?>  &amp; Charger
                                                 </label>
-                                                <input  wb-data-ratio="70" name="used-list2" type="radio" id="box3">
+                                                <input  wb-data-ratio="<?php echo myprefix_get_theme_option($cat_slug."_product_only"); ?>" name="used-list2" type="radio" id="box3">
                                                 <label for="box3">
                                                     <i class="fa"></i>
                                                     <?php echo $cat; ?>  Only
@@ -144,7 +217,7 @@ global $post;
                                         <label class="tab-inner-btn" for="tab11">
                                             <i class="fa"></i>UK Model
                                         </label>
-                                        <input wb-data-ratio="50" type="radio" name="tab-selector2" id="tab22">
+                                        <input wb-data-ratio="<?php echo myprefix_get_theme_option($cat_slug."_none_uk_model"); ?>" type="radio" name="tab-selector2" id="tab22">
                                         <label class="tab-inner-btn" for="tab22">
                                             <i class="fa"></i>None-UK Model
                                         </label>
@@ -173,6 +246,7 @@ global $post;
                                 ?>
                             </div>
                         </div>
+                        <a href="#add_cart_notice" class="gotoNotice" style="display: none">Go to Notice</a>
 
                     </div>
                 </div>
@@ -180,32 +254,34 @@ global $post;
                 <script type="text/javascript">
                     $(document).ready(function () {
 
+                        window.location.href = $('.gotoNotice').attr('href');
+
+                        $("#pa_condition").val('new-sealed').change();
+
                         var _mainprice = $("#product_price_main").val();
 
                         function CalculatePrice() {
 
-                            var num1;
-                            var num2;
-                            var num3;
+                            var num1=0;
+                            var num2=0;
+                            var num3=0;
+                            var finalnumber=0;
 
-
-                            if ($('#upper_tabs input#tab2').is(':checked')) {
+                            if ($('#upper_tabs input#tab2') .is(':checked')) {
                                 if (!$("#grade_list input:radio:checked").val()) {
-                                    num1 = 0;
-                                }
-                                else {
-                                    num1 = $('#grade_list input:radio:checked', '#upper_tabs').attr("wb-data-ratio");
+                                } else {
+                                    $("#pa_condition").val($("#grade_list input:radio:checked").attr('id')).change();
+                                    num1 = parseInt($(".woocommerce-current_Price").text().replace(/,/g, ''));
                                 }
 
                                 if (!$("#package_list_price input:radio:checked").val()) {
                                     num2 = 0;
-                                }
-                                else {
+                                } else {
                                     num2 = $('#package_list_price input:radio:checked', '#upper_tabs').attr("wb-data-ratio");
                                 }
-
                             } else {
-                                num1 = 0;
+                                $("#pa_condition").val("new-sealed").change();
+                                num1 = parseInt($(".woocommerce-current_Price").text().replace(/,/g, ''));
                                 num2 = 0;
                             }
 
@@ -220,14 +296,11 @@ global $post;
 
                             if (num1 == 0) {
                                 num1 = _mainprice;
-                            } else {
-                                num1 = (parseInt(_mainprice) * parseInt(num1)) / 100;
                             }
 
 
                             var num4 = 0;
                             if ($("#network_list_price").length) {
-
                                 num4 = $("#network_list_price option:selected").attr("wb-data-ratio");
                             }
 
@@ -238,7 +311,7 @@ global $post;
 
                             // $("#user_calculated_price i").text(num1 - num2 - num3)
                             var startnumber = $("#user_calculated_price i").text();
-                            var finalnumber = parseInt(num1 - num2 - num3 - num4);
+                            finalnumber = parseInt(num1 - num2 - num3 - num4);
 
                             if (finalnumber < 1) {
                                 finalnumber = 0;
@@ -251,6 +324,7 @@ global $post;
                             // alert(startnumber);
                             //$("#user_calculated_price i").animateNumber({ number: 10000 });
                             $('#user_calculated_price i').animateNumbers(finalnumber, false, 500, "easeInOutQuad");
+                            $('#real_price').val(finalnumber);
                         }
 
 
@@ -269,7 +343,7 @@ global $post;
                         $("#tab2").click(function () {
                             if ($('#grade_list input:radio').is(':checked')) {
                             } else {
-                                $("#grade_list #grade1:radio").attr('checked', true);
+                                $("#grade_list #grade-a:radio").attr('checked', true);
                             }
                             if ($('#package_list_price input:radio').is(':checked')) {
                             } else {
@@ -293,11 +367,11 @@ global $post;
 
 
                         $("#inner_uk_items input#tab11").click(function () {
-                            CalculatePrice()
+                            CalculatePrice();
                         });
 
                         $("#inner_uk_items input#tab22").click(function () {
-                            CalculatePrice()
+                            CalculatePrice();
                         });
 
                     });
@@ -321,4 +395,7 @@ global $post;
 
 
 
-<?php do_action( 'woocommerce_after_single_product' ); ?>
+<?php do_action( 'woocommerce_after_single_product' );
+
+?>
+

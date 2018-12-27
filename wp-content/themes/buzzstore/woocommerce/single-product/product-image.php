@@ -47,7 +47,13 @@ $wrapper_classes   = apply_filters( 'woocommerce_single_product_image_gallery_cl
                 $img_src .= '</div>';
             }
 
-            $price = $product->get_price();
+            $available_variations = $product->get_available_variations();
+            $variation_id1=$available_variations[0]['variation_id'];
+            $variable_product1= new WC_Product_Variation( $variation_id1 );
+            $regular_price = $variable_product1 ->regular_price;
+
+            $price = $regular_price;
+
     //
     //		echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $img_src, $post_thumbnail_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
     //
@@ -64,10 +70,12 @@ $wrapper_classes   = apply_filters( 'woocommerce_single_product_image_gallery_cl
 
             <?php $attributes = $product->get_attributes(); ?>
             <?php foreach ( $attributes as $attribute ) : ?>
-                <span><?php echo wc_attribute_label( $attribute->get_name() ); ?></span>
-                <?php
-                    $value = $product->get_attribute( $attribute->get_taxonomy() );
+                <span><?php if (wc_attribute_label( $attribute->get_name() ) != "Condition") {
+                    echo wc_attribute_label($attribute->get_name()); ?></span>
+                    <?php
+                    $value = $product->get_attribute($attribute->get_taxonomy());
                     echo $value;
+                }
                 ?>
             <br>
             <?php endforeach; ?>

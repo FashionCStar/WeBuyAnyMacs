@@ -21,8 +21,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $product;
+$available_variations = $product->get_available_variations();
+$variation_id=$available_variations[0]['variation_id'];
+$variable_product1= new WC_Product_Variation( $variation_id );
+$regular_price = $variable_product1 ->regular_price;
+$sales_price = $variable_product1 ->sale_price;
 ?>
 
-<?php if ( $price = $product->get_price() ) : ?>
+<?php if ( $price = $regular_price ) : ?>
 	<h5><?php echo "We pay you £".$price ?></h5>
 <?php endif; ?>

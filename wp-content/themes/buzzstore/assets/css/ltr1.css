@@ -3293,7 +3293,11 @@ a#back_to_prev_step:hover {
 }
 
 .openh2 a .pro_img img {
-    padding: 10px 30px
+    padding: 10px 30px;
+}
+
+.pro_img {
+    height:240px;
 }
 
 .latest-sellers {

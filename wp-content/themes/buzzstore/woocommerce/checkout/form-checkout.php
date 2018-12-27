@@ -19,6 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+global $woocommerce;
+
 do_action( 'woocommerce_before_checkout_form', $checkout );
 
 // If checkout registration is disabled and not logged in, the user cannot checkout.
@@ -27,10 +29,18 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	return;
 }
 
+$cart_total = $_POST['cart_total_price'];
+$extra_option = $_POST['cart_extra_option'];
+$woocommerce->cart->set_total($cart_total);
+//echo $woocommerce->cart->total; exit;
+//foreach ( $woocommerce->cart->get_cart() as $cart_item_key => $cart_item ) {
+//    $cart_item['data']->set_price($cart_total);
+//}
+//$woocommerce->cart->set_session();
 ?>
 
 <form id="wbae_userdata" name="checkout" method="post" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
-
+    <input type="hidden" name="cart_extra_option" value="<?php echo $extra_option ?>" >
 	<?php if ( $checkout->get_checkout_fields() ) : ?>
 
 		<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
@@ -68,12 +78,27 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 
 <!--	--><?php //do_action( 'woocommerce_checkout_before_order_review' ); ?>
 
-	<div id="order_review" class="woocommerce-checkout-review-order">
+	<div id="order_review" class="woocommerce-checkout-review-order" style="display: none">
 		<?php do_action( 'woocommerce_checkout_order_review' ); ?>
 	</div>
 
 <!--	--><?php //do_action( 'woocommerce_checkout_after_order_review' ); ?>
 
 </form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var option = "<?php echo $extra_option ?>";
+        if (option == "nowait_payment") {
+            $("#wait_payment").val("No Wait");
+        } else if(option == "wait_weeks2") {
+            $("#wait_payment").val("Wait 14 days");
+        } else if(option == "wait_weeks4") {
+            $("#wait_payment").val("Wait 28 days");
+        }
+    });
+</script>
 
 <?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>

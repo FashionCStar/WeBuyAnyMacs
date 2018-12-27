@@ -118,7 +118,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <h2>WeBuyAnyMacs Order Info</h2>
                         <label for="txt_bname">WBAM Tracking Code</label>
                         <div class="ups-reveiw2">
-                            <span>40267</span>
+<!--                            <span>40267</span>-->
+                            <span><?php echo $order->id ?></span>
                             <i class="fa"></i>
                         </div>
                         <label for="txt_an">Order Date</label>
@@ -131,17 +132,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <label for="txt_scode">Order Status</label>
                         <div class="ups-reveiw2">
                             <span>Received and UPS Shipment Created</span>
-                            <i class="fa"></i></div>
+                            <i class="fa"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6 order-form">
                     <div class="uinfo-border">
                         <h2>UPS Shipping Information</h2>
-                        <label>Pickup Request Confirmation Number</label>
-                        <div class="ups-reveiw2">
-                            <span>297BE3NL48I</span>
-                            <i class="fa"></i>
-                        </div>
                         <label>UPS shipment Tracking Number</label>
                         <div class="ups-reveiw2">
                             <span>
@@ -150,16 +147,47 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <i class="fa"></i>
                         </div>
                         <label>UPS Label URL</label>
-                        <a target="_blank" href="https://www.ups.com/uel/llp/1ZY677309190232124/link/labelAll/XSA/H8I1oZ7xyFO1PcObYRZ5nUkQSAdK3ue6RII3DfMnIx8e/en_GB?loc=en_GB&amp;pdr=false"
-                           class="ups-reveiw5">
-                            Click Here to Print Your Free UPS Postage Label
+                        <?php
+                        $created_shipments_details_array 	= get_post_meta( $order->id, 'ups_created_shipments_details_array', true );
+                        $ups_label_details_array = get_post_meta( $order->id, 'ups_label_details_array', true );
+                        $ups_commercial_invoice_details = get_post_meta( $order->id, 'ups_commercial_invoice_details', true );
+                        $ups_settings = get_option( 'woocommerce_'.WF_UPS_ID.'_settings', null );
+                        $show_print_label_in_browser = isset( $ups_settings['show_label_in_browser'] ) ? $ups_settings['show_label_in_browser'] : 'no';
+
+                        if(!empty($ups_label_details_array) && is_array($ups_label_details_array)) {
+
+                            $packages = xa_get_custom_meta_key($order, '_wf_ups_stored_packages', true, 'order');        //For displaying the products name with label on order page
+
+                            foreach ($created_shipments_details_array as $shipmentId => $created_shipments_details) {
+
+                                if ("yes" == $show_print_label_in_browser) {
+                                    $target_val = "_blank";
+                                } else {
+                                    $target_val = "_self";
+                                }
+
+                                // Multiple labels for each package.
+                                $index = 0;
+                                if (!empty($ups_label_details_array[$shipmentId])) {
+                                    foreach ($ups_label_details_array[$shipmentId] as $ups_label_details) {
+                                        $label_extn_code = $ups_label_details["Code"];
+                                        $tracking_number = isset($ups_label_details["TrackingNumber"]) ? $ups_label_details["TrackingNumber"] : '';
+                                        $download_url = admin_url('/?wf_ups_print_label=' . base64_encode($shipmentId . '|' . $order->id . '|' . $label_extn_code . '|' . $index . '|' . $tracking_number));
+                                    }
+                                }
+                            }
+                        }
+                        ?>
+                        <a href="<?php echo $download_url; ?>" target="<?php echo $target_val; ?>"
+                           class="ups-reveiw5 print_ups_label">
+                            Click Here to Print Label
                             <i class="fa"></i>
                         </a>
-                        <label>UPS Receipt URL</label>
+                        <label>UPS Tracking</label>
                         <a target="_blank"
-                                href="https://www.ups.com/uel/llp/1ZY677309190232124/link/receipt/XSA/H8I1oZ7xyFO1PcObYRZ5nUkQSAdK3ue6RII3DfMnIx8e/en_GB?loc=en_GB&amp;pdr=false"
+                                    href="http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=<?php echo get_post_meta( $order->get_order_number() , "ups_shipment_ids", true )?>"
                                 class="ups-reveiw3">
-                            Get UPS Receipt
+                            UPS Tracking
                             <i class="fa"></i>
                         </a>
                     </div>

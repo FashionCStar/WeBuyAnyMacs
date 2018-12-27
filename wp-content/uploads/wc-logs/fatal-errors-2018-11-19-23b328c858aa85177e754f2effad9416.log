@@ -1,8 +1,0 @@
-2018-11-19T10:52:53+00:00 CRITICAL Call to a member function is_on_sale() on null in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\sparklethemes\hooks\woocommerce.php on line 244
-
-2018-11-19T11:23:24+00:00 CRITICAL Call to a member function is_on_sale() on null in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\sparklethemes\hooks\woocommerce.php on line 244
-
-2018-11-19T19:20:58+00:00 CRITICAL Call to undefined function woo_pagination() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\archive-product.php on line 146
-
-2018-11-19T19:21:58+00:00 CRITICAL Call to undefined function woo_pagination() in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\archive-product.php on line 206
-

@@ -23,6 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<a href="<?php echo esc_url( wc_get_checkout_url() );?>" class="btn_next nomargin2 checkout-button button alt wc-forward">
-	<?php esc_html_e( 'NEXT STEP - PERSONAL INFO >', 'woocommerce' ); ?>
-</a>
+<!--<a href="--><?php //echo esc_url( wc_get_checkout_url() );?><!--" class="btn_next nomargin2 checkout-button button alt wc-forward">-->
+<!--	--><?php //esc_html_e( 'NEXT STEP - PERSONAL INFO >', 'woocommerce' ); ?>
+<!--</a>-->
+
+
+<button type="submit" class="btn_next nomargin2 checkout-button button alt wc-forward">
+    <?php esc_html_e( 'NEXT STEP - PERSONAL INFO >', 'woocommerce' ); ?>
+</button>

@@ -26,7 +26,7 @@ if ( ! $messages ) {
 ?>
 
 <?php foreach ( $messages as $message ) : ?>
-<div class="container" style=" margin-top: 10px;">
+<div class="container" id="add_cart_notice" style=" margin-top: 10px;">
         <div id="msg_add_to_basket" role="alert">
             <i class="fa"></i>
             <?php

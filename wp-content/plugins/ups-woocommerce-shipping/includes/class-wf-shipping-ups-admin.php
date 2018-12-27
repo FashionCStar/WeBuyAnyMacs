@@ -197,6 +197,7 @@ class WF_Shipping_UPS_Admin
 		elseif ( isset( $_GET['xa_generate_return_label']) ) {			// Create Return label after generating the label
 			add_action( 'admin_init', array( $this, 'xa_generate_return_label' ) );
 		}
+		add_action("woocommerce_checkout_update_order_meta", array( $this, 'wf_ups_custom_shipment_confirm' ));
 	}
 
 	private function wf_init() {
@@ -206,7 +207,8 @@ class WF_Shipping_UPS_Admin
 
 		$shipmentconfirm_requests 			= array();
 		// Load UPS Settings.
-		$this->settings 					= get_option( 'woocommerce_'.WF_UPS_ID.'_settings', null ); 
+		$this->settings 					= get_option( 'woocommerce_'.WF_UPS_ID.'_settings', null );
+
 		//Print Label Settings.
 		$this->disble_ups_print_label		= isset( $this->settings['disble_ups_print_label'] ) ? $this->settings['disble_ups_print_label'] : '';
 		$this->disble_shipment_tracking		= isset( $this->settings['disble_shipment_tracking'] ) ? $this->settings['disble_shipment_tracking'] : 'TrueForCustomer';
@@ -311,9 +313,8 @@ class WF_Shipping_UPS_Admin
 		$default_service_type 				= $shipping_service_data['shipping_service'];
 
 		$created_shipments_details_array 	= get_post_meta( $post->ID, 'ups_created_shipments_details_array', true );
-		if( empty( $created_shipments_details_array ) ) {		
-			
-			
+		if( empty( $created_shipments_details_array ) ) {
+
 			$download_url = admin_url( '/?wf_ups_shipment_confirm='.base64_encode( $shipmentId.'|'.$post->ID ) );
 			$stored_packages	=	get_post_meta( $post->ID, '_wf_ups_stored_packages', true );
 			if(empty($stored_packages)	&&	!is_array($stored_packages)){
@@ -755,6 +756,7 @@ class WF_Shipping_UPS_Admin
 							$label_extn_code 	= $ups_label_details["Code"];
 							$tracking_number 	= isset( $ups_label_details["TrackingNumber"] ) ? $ups_label_details["TrackingNumber"] : '';
 							$download_url 		= admin_url( '/?wf_ups_print_label='.base64_encode( $shipmentId.'|'.$post->ID.'|'.$label_extn_code.'|'.$index.'|'.$tracking_number ) );
+
 							$post_fix_label		= '';
 							
 							if( count($ups_label_details_array) > 1 ) {
@@ -848,7 +850,7 @@ class WF_Shipping_UPS_Admin
 				if( empty($created_shipments_details_array[$shipmentId]['return']) ){
 					$services = base64_encode($this->xa_get_meta_key( $order, 'xa_ups_generated_label_services', true));
 					echo '<hr style="border-color:#0074a2">';
-					$generate_return_label = !empty($services) ? admin_url( "/?xa_generate_return_label=$post->ID&service=$services&rt_service=$services") : '#';
+					$generate_return_label = admin_url( "/?xa_generate_return_label=$post->ID&service=$services&rt_service=$services");
 					echo "<strong>";
 						_e('Generate Return label : ', 'ups-woocommerce-shipping');
 					echo "</strong>";
@@ -863,7 +865,8 @@ class WF_Shipping_UPS_Admin
 				<strong><?php _e( 'Cancel the Shipment', 'ups-woocommerce-shipping' ); ?></strong></br>
 				<a class="button tips" href="<?php echo $void_shipment_url; ?>" data-tip="<?php _e( 'Void Shipment', 'ups-woocommerce-shipping' ); ?>"><?php _e( 'Void Shipment', 'ups-woocommerce-shipping' ); ?></a><hr style="border-color:#0074a2">
 				<?php
-			}else{
+			}
+			else{
 				$accept_shipment_url = admin_url( '/?wf_ups_shipment_accept='.base64_encode( $post->ID ) );
 				?>
 				<strong><?php _e( 'Step 3: Accept your shipment.', 'ups-woocommerce-shipping' ); ?></strong></br>
@@ -993,7 +996,7 @@ class WF_Shipping_UPS_Admin
 		global $post;
 		
 		$ups_settings 					= get_option( 'woocommerce_'.WF_UPS_ID.'_settings', null ); 
-		
+
 		// Apply filter on settings data
 		$ups_settings	=	apply_filters('wf_ups_confirm_shipment_settings', $ups_settings, $order); //For previous version compatibility.
 		$ups_settings	=	apply_filters('wf_ups_shipment_settings', $ups_settings, $order);
@@ -1038,8 +1041,8 @@ class WF_Shipping_UPS_Admin
 			$from_address 	= $this->get_shop_address( $order, $ups_settings );
 			$to_address 	= $this->get_order_address( $order );
 		}
+		$shipping_service_data	= $this->wf_get_shipping_service_data( $order );
 
-		$shipping_service_data	= $this->wf_get_shipping_service_data( $order ); 
 		$shipping_method		= $shipping_service_data['shipping_method'];
 		$shipping_service		= $shipping_service_data['shipping_service'];
 		$shipping_service_name	= $shipping_service_data['shipping_service_name'];
@@ -1068,10 +1071,10 @@ class WF_Shipping_UPS_Admin
 
 		$shipments          =   $this->split_shipment_by_services($package_data, $order,$return_label);
 		$shipments			=	apply_filters('wf_ups_shipment_data', $shipments, $order); // Filter to break shipments further, with other business logics, like multi vendor
-		
+
 		$shipment_requests	=	array();
-		$all_var=get_defined_vars();	
-			
+		$all_var=get_defined_vars();
+
 		if( is_array($shipments) ){
 			$service_index	= 0;
 			$str 			= isset($_GET['service']) ? str_replace( '\"','', str_replace(']','', str_replace('[','',$_GET['service'])) ) : '';
@@ -1501,285 +1504,286 @@ class WF_Shipping_UPS_Admin
 						$xml_request	=	apply_filters('wf_ups_shipment_confirm_request', $xml_request, $order, $shipment );
 						$shipment_requests[]    = $this->modfiy_encoding($xml_request);
 					}
+
 					$service_index++;
 				}
 			}
 			return $shipment_requests;
-		}
+    }
 
-		/**
-		 * Get Ship From Address.
-		 */
-		private function get_ship_from_address( $settings ) {
+    /**
+     * Get Ship From Address.
+     */
+    private function get_ship_from_address( $settings ) {
 
-			$ship_from_address = null;
-			if( ! empty($settings['ship_from_addressline']) ) {
-				$ship_from_country_state = $settings['ship_from_country_state'];
-				if (strstr($ship_from_country_state, ':')) :
-					list( $ship_from_country, $ship_from_state ) = explode(':',$ship_from_country_state);
-				else :
-					$ship_from_country = $ship_from_country_state;
-					$ship_from_state   = '';
-				endif;
-				$ship_from_custom_state   = ! empty($settings['ship_from_custom_state']) ? $settings['ship_from_custom_state'] : $ship_from_state;
-				$ship_from_address = array(
-					'CompanyName'	=>	! empty($settings['ups_user_name']) ? substr( $settings['ups_user_name'], 0, 30 ) : '-',
-					'AttentionName'	=>	! empty($settings['ups_display_name']) ? $settings['ups_display_name'] : '-',
-					'Address'		=>	array(
-						'AddressLine1'	=>	$settings['ship_from_addressline'],
-						'City'			=>	$settings['ship_from_city'],
-						'PostalCode'	=>	$settings['ship_from_postcode'],
-						'CountryCode'	=>	$ship_from_country,
-					),
-				);
-				if( ! empty($ship_from_custom_state) )	$ship_from_address['Address']['StateProvinceCode'] = $ship_from_custom_state;
-			}
-			return $ship_from_address;
-		}
+        $ship_from_address = null;
+        if( ! empty($settings['ship_from_addressline']) ) {
+            $ship_from_country_state = $settings['ship_from_country_state'];
+            if (strstr($ship_from_country_state, ':')) :
+                list( $ship_from_country, $ship_from_state ) = explode(':',$ship_from_country_state);
+            else :
+                $ship_from_country = $ship_from_country_state;
+                $ship_from_state   = '';
+            endif;
+            $ship_from_custom_state   = ! empty($settings['ship_from_custom_state']) ? $settings['ship_from_custom_state'] : $ship_from_state;
+            $ship_from_address = array(
+                'CompanyName'	=>	! empty($settings['ups_user_name']) ? substr( $settings['ups_user_name'], 0, 30 ) : '-',
+                'AttentionName'	=>	! empty($settings['ups_display_name']) ? $settings['ups_display_name'] : '-',
+                'Address'		=>	array(
+                    'AddressLine1'	=>	$settings['ship_from_addressline'],
+                    'City'			=>	$settings['ship_from_city'],
+                    'PostalCode'	=>	$settings['ship_from_postcode'],
+                    'CountryCode'	=>	$ship_from_country,
+                ),
+            );
+            if( ! empty($ship_from_custom_state) )	$ship_from_address['Address']['StateProvinceCode'] = $ship_from_custom_state;
+        }
+        return $ship_from_address;
+    }
 
-		/**
-		 * Get Ship To Address for Return Label.
-		 */
-		private function get_ship_to_address_in_return_label( $settings, $from_address = array() ) {
-			$ship_from_address_different_from_shipper = ! empty($settings['ship_from_address_different_from_shipper']) ? $settings['ship_from_address_different_from_shipper'] : 'no';
-			$ship_to_address = array();
-			if( $ship_from_address_different_from_shipper == 'yes' ) {
+    /**
+     * Get Ship To Address for Return Label.
+     */
+    private function get_ship_to_address_in_return_label( $settings, $from_address = array() ) {
+        $ship_from_address_different_from_shipper = ! empty($settings['ship_from_address_different_from_shipper']) ? $settings['ship_from_address_different_from_shipper'] : 'no';
+        $ship_to_address = array();
+        if( $ship_from_address_different_from_shipper == 'yes' ) {
 
-				$ship_from_country_state = $settings['ship_from_country_state'];
-				if (strstr($ship_from_country_state, ':')) :
-					list( $ship_from_country, $ship_from_state ) = explode(':',$ship_from_country_state);
-				else :
-					$ship_from_country = $ship_from_country_state;
-					$ship_from_state   = '';
-				endif;
-				$ship_from_custom_state   = ! empty($settings['ship_from_custom_state']) ? $settings['ship_from_custom_state'] : $ship_from_state;
+            $ship_from_country_state = $settings['ship_from_country_state'];
+            if (strstr($ship_from_country_state, ':')) :
+                list( $ship_from_country, $ship_from_state ) = explode(':',$ship_from_country_state);
+            else :
+                $ship_from_country = $ship_from_country_state;
+                $ship_from_state   = '';
+            endif;
+            $ship_from_custom_state   = ! empty($settings['ship_from_custom_state']) ? $settings['ship_from_custom_state'] : $ship_from_state;
 
-				$ship_to_address = array(
-					'AddressLine1'		=>	$settings['ship_from_addressline'],
-					'City'				=>	$settings['ship_from_city'],
-					'CountryCode'		=>	$ship_from_country,
-					'PostalCode'		=>	$settings['ship_from_postcode'],
-				);
-				if( ! empty($ship_from_custom_state) )	$ship_to_address['StateProvinceCode'] = $ship_from_custom_state;
-			}
-			else{
-				$ship_to_address = array(
-					'AddressLine1'		=>	$from_address['address_1'],
-					'City'				=>	$from_address['city'],
-					'StateProvinceCode'	=>	$from_address['state'],
-					'CountryCode'		=>	$from_address['country'],
-					'PostalCode'		=>	$from_address['postcode'],
-				);
-			}
-			return $ship_to_address;
-		}
+            $ship_to_address = array(
+                'AddressLine1'		=>	$settings['ship_from_addressline'],
+                'City'				=>	$settings['ship_from_city'],
+                'CountryCode'		=>	$ship_from_country,
+                'PostalCode'		=>	$settings['ship_from_postcode'],
+            );
+            if( ! empty($ship_from_custom_state) )	$ship_to_address['StateProvinceCode'] = $ship_from_custom_state;
+        }
+        else{
+            $ship_to_address = array(
+                'AddressLine1'		=>	$from_address['address_1'],
+                'City'				=>	$from_address['city'],
+                'StateProvinceCode'	=>	$from_address['state'],
+                'CountryCode'		=>	$from_address['country'],
+                'PostalCode'		=>	$from_address['postcode'],
+            );
+        }
+        return $ship_to_address;
+    }
 
-		private function wf_is_surepost( $shipping_method ){
-			return in_array($shipping_method, $this->ups_surepost_services ) ;
-		}
+    private function wf_is_surepost( $shipping_method ){
+        return in_array($shipping_method, $this->ups_surepost_services ) ;
+    }
 
-		private function get_service_code_for_country($service, $country){
-			$service_for_country = array(
-				'CA' => array(
-				'07' => '01', // for Canada serivce code of 'UPS Express(07)' is '01'
-				),
-				);
-			if( array_key_exists($country, $service_for_country) ){
-				return isset($service_for_country[$country][$service]) ? $service_for_country[$country][$service] : $service;
-			}
-			return $service;
-		}
+    private function get_service_code_for_country($service, $country){
+        $service_for_country = array(
+            'CA' => array(
+            '07' => '01', // for Canada serivce code of 'UPS Express(07)' is '01'
+            ),
+            );
+        if( array_key_exists($country, $service_for_country) ){
+            return isset($service_for_country[$country][$service]) ? $service_for_country[$country][$service] : $service;
+        }
+        return $service;
+    }
 
 
-		private function wf_get_accesspoint_datas( $order_details ){
-			if( WC()->version < '2.7.0' ){
-				return ( isset($order_details->shipping_accesspoint) ) ? json_decode( stripslashes($order_details->shipping_accesspoint) ) : '';
-			}else{
-				$address_field = $order_details->get_meta('_shipping_accesspoint');
-				return json_decode(stripslashes($address_field));
-			}
-		}
+    private function wf_get_accesspoint_datas( $order_details ){
+        if( WC()->version < '2.7.0' ){
+            return ( isset($order_details->shipping_accesspoint) ) ? json_decode( stripslashes($order_details->shipping_accesspoint) ) : '';
+        }else{
+            $address_field = $order_details->get_meta('_shipping_accesspoint');
+            return json_decode(stripslashes($address_field));
+        }
+    }
 
-		public function get_confirm_shipment_accesspoint_request($order_details){
-			$accesspoint = $this->wf_get_accesspoint_datas( $order_details );
+    public function get_confirm_shipment_accesspoint_request($order_details){
+        $accesspoint = $this->wf_get_accesspoint_datas( $order_details );
 
-			$confirm_accesspoint_request = array();
-			if( isset($accesspoint->AddressKeyFormat) && !empty($accesspoint->AccessPointInformation->PublicAccessPointID) ){
-				$access_point_consignee		= $accesspoint->AddressKeyFormat->ConsigneeName;
-				$access_point_addressline	= $accesspoint->AddressKeyFormat->AddressLine;
-				$access_point_city			= isset($accesspoint->AddressKeyFormat->PoliticalDivision2) ? $accesspoint->AddressKeyFormat->PoliticalDivision2 : '';
-				$access_point_state			= isset($accesspoint->AddressKeyFormat->PoliticalDivision1) ? $accesspoint->AddressKeyFormat->PoliticalDivision1 : '';
-				$access_point_postalcode	= $accesspoint->AddressKeyFormat->PostcodePrimaryLow;
-				$access_point_country		= $accesspoint->AddressKeyFormat->CountryCode;
-				$access_point_id			= $accesspoint->AccessPointInformation->PublicAccessPointID;
+        $confirm_accesspoint_request = array();
+        if( isset($accesspoint->AddressKeyFormat) && !empty($accesspoint->AccessPointInformation->PublicAccessPointID) ){
+            $access_point_consignee		= $accesspoint->AddressKeyFormat->ConsigneeName;
+            $access_point_addressline	= $accesspoint->AddressKeyFormat->AddressLine;
+            $access_point_city			= isset($accesspoint->AddressKeyFormat->PoliticalDivision2) ? $accesspoint->AddressKeyFormat->PoliticalDivision2 : '';
+            $access_point_state			= isset($accesspoint->AddressKeyFormat->PoliticalDivision1) ? $accesspoint->AddressKeyFormat->PoliticalDivision1 : '';
+            $access_point_postalcode	= $accesspoint->AddressKeyFormat->PostcodePrimaryLow;
+            $access_point_country		= $accesspoint->AddressKeyFormat->CountryCode;
+            $access_point_id			= $accesspoint->AccessPointInformation->PublicAccessPointID;
 
-				if( strlen($access_point_addressline) > 35 ) {
-					$address_line_1		=	null;
-					$address_line_2		=	null;
-					$temp_address		=	null;
-					$new_address		= explode( ' ', $access_point_addressline);
-					foreach( $new_address as $word ){
-						$temp_address = $temp_address.' '.$word;
-						if( empty($address_line_2) && strlen($temp_address) <= 35 ) {
-							$address_line_1 = $address_line_1.' '.$word;
-						}
-						else {
-							$address_line_2	= $address_line_2.' '.$word;
-						}
-						$temp_address = empty($address_line_2) ? $address_line_1 : $address_line_2;
-					}
-				}
-							
-				$confirm_accesspoint_request	=	array(
-					'ShipmentIndicationType'	=>	array('Code'=>'01'),
-					'AlternateDeliveryAddress'	=>	array(
-						'Name'				=>	$access_point_consignee,
-						'AttentionName'		=>	$access_point_consignee,
-						'UPSAccessPointID'	=>	$access_point_id,
-						'Address'			=>	array(
-							'AddressLine1'		=>	! empty($address_line_1) ? $address_line_1 : $access_point_addressline,
-							'AddressLine2'		=>	! empty($address_line_2) ? $address_line_2 : '-',
-							'City'				=>	$access_point_city,
-							'StateProvinceCode'	=>	$access_point_state,
-							'PostalCode'		=>	$access_point_postalcode,
-							'CountryCode'		=>	$access_point_country,
-						),
-					),						
-				);
-				
-				$accesspoint_notifications[] = array(
-						'Notification' => array(
-							'NotificationCode'=>'012',
-							'EMailMessage'=> array(
-								'EMailAddress' => $order_details->billing_email,
-							),
-							'Locale'=>array(
-								'Language'=>'ENG',
-								'Dialect'=>'US',
-							),
-						),
-					);
-				$accesspoint_notifications[] = array(
-						'Notification' => array(
-							'NotificationCode'=>'013',
-							'EMailMessage'=> array(
-								'EMailAddress' => $order_details->billing_email,
-							),
-							'Locale'=>array(
-								'Language'=>'ENG',
-								'Dialect'=>'US',
-							),
-						),
-					);
-				$confirm_accesspoint_request['ShipmentServiceOptions']['Notification']	=	array_merge(array('multi_node'=>1), $accesspoint_notifications);
-			}
-
-			return $confirm_accesspoint_request;
-		}
-		private function get_code_from_label_type( $label_type ){
-			switch ($label_type) {
-				case 'zpl':
-				$code_val = 'ZPL';
-				break;
-				case 'epl':
-				$code_val = 'EPL';
-				break;
-				case 'png':
-				$code_val = 'ZPL';
-				break;
-				default:
-				$code_val = 'GIF';
-				break;
-			}
-			return array('Code'=>$code_val);
-		}
-
-		private function wf_get_shipment_description( $order ){
-			$shipment_description	= '\nOrder Id - '.$order->get_order_number().'\n';
-			$order_items	= $order->get_items();
-
-			$shipment_description	.=	'Items - '; 
-			if(is_array($order_items) && count($order_items)){
-				foreach( $order_items as $order_item ) {
-					$product = $this->get_product_from_order_item($order_item);
-					if( is_a( $product, 'WC_Product' ) && $product->needs_shipping() )
-						$shipment_description 	.= $product->get_title().', ';
-				}
-			}
-
-			if ('' == $shipment_description ) {
-				$shipment_description = 'Package/customer supplied.';
-			}
-			$shipment_description = htmlspecialchars( $shipment_description );
-			$shipment_description = apply_filters('wf_ups_alter_shipment_desription' ,$shipment_description);
-			$shipment_description = ( strlen( $shipment_description ) >= 50 ) ? substr( $shipment_description, 0, 45 ).'...' : $shipment_description;
-			return $shipment_description;
-		}
-
-		/**
-		 * Get Product from Order Line Item.
-		 * @param array|object $line_item Array in less than woocommerce 3.0 else Object
-		 * @return object WC_Product|null|false
-		 */
-		public function get_product_from_order_item( $line_item ) {
-
-			if( self::$wc_version < '3.0.0' ) {
-				$product_id = ! empty($line_item['variation_id']) ? $line_item['variation_id'] : $line_item['product_id'];
-				$product = wc_get_product($product_id);
-			}
-			else{
-				$product = $line_item->get_product();
-			}
-			return $product;
-		}
-
-		function wf_get_package_data( $order, $ship_options=array(), $to_address=array() ) {
-
-			$packages	= $this->wf_create_package( $order, $to_address );
-			$order_id 	= ( WC()->version < '3.0' ) ? $order->id : $order->get_id();
-
-			if ( ! class_exists( 'WF_Shipping_UPS' ) ) {
-				include_once 'class-wf-shipping-ups.php';
-			}
-			$this->wcsups 			= new WF_Shipping_UPS( $order );
-			$package_data_array	= array();		
-
-		    if(!isset($ship_options['return_label']) || !$ship_options['return_label']){ // If return label is printing, cod can't be applied
-                $this->wcsups->wf_set_cod_details($order);
-            }
-	
-            // Set Insurance value false
-            $order_subtotal = $order->get_subtotal();
-            if( $order_subtotal < $this->min_order_amount_for_insurance ) {
-                $this->wcsups->insuredvalue = false;
-            }
-
-            $service_code=get_post_meta($order->id,'wf_ups_selected_service',1);
-            if($service_code) {
-                $this->wcsups->wf_set_service_code($service_code);
-                if(in_array($service_code, array(92,93,94,95))) {// Insurance value doen't wprk with sure post services
-                    $this->wcsups->insuredvalue = false;
+            if( strlen($access_point_addressline) > 35 ) {
+                $address_line_1		=	null;
+                $address_line_2		=	null;
+                $temp_address		=	null;
+                $new_address		= explode( ' ', $access_point_addressline);
+                foreach( $new_address as $word ){
+                    $temp_address = $temp_address.' '.$word;
+                    if( empty($address_line_2) && strlen($temp_address) <= 35 ) {
+                        $address_line_1 = $address_line_1.' '.$word;
+                    }
+                    else {
+                        $address_line_2	= $address_line_2.' '.$word;
+                    }
+                    $temp_address = empty($address_line_2) ? $address_line_1 : $address_line_2;
                 }
             }
 
-            $package_params	=	array();
-            if(isset($ship_options['delivery_confirmation_applicable'])){
-                $package_params['delivery_confirmation_applicable']	=	$ship_options['delivery_confirmation_applicable'];
-            }
+            $confirm_accesspoint_request	=	array(
+                'ShipmentIndicationType'	=>	array('Code'=>'01'),
+                'AlternateDeliveryAddress'	=>	array(
+                    'Name'				=>	$access_point_consignee,
+                    'AttentionName'		=>	$access_point_consignee,
+                    'UPSAccessPointID'	=>	$access_point_id,
+                    'Address'			=>	array(
+                        'AddressLine1'		=>	! empty($address_line_1) ? $address_line_1 : $access_point_addressline,
+                        'AddressLine2'		=>	! empty($address_line_2) ? $address_line_2 : '-',
+                        'City'				=>	$access_point_city,
+                        'StateProvinceCode'	=>	$access_point_state,
+                        'PostalCode'		=>	$access_point_postalcode,
+                        'CountryCode'		=>	$access_point_country,
+                    ),
+                ),
+            );
 
-            $packing_method  	= isset( $this->settings['packing_method'] ) ? $this->settings['packing_method'] : 'per_item';
-            $package_data = array();
-            foreach( $packages as $key => $package ) {
-                $package = apply_filters( 'wf_customize_package_on_generate_label', $package, $order_id );		//Filter to customize the package, for example to support bundle product
-                $temp_package_data 		= $this->wcsups->wf_get_api_rate_box_data( $package, $packing_method, $package_params);
-                if(is_array($temp_package_data) ) {
-                    $package_data = array_merge($package_data, $temp_package_data);
-                }
-            }
-            return $package_data;
+            $accesspoint_notifications[] = array(
+                    'Notification' => array(
+                        'NotificationCode'=>'012',
+                        'EMailMessage'=> array(
+                            'EMailAddress' => $order_details->billing_email,
+                        ),
+                        'Locale'=>array(
+                            'Language'=>'ENG',
+                            'Dialect'=>'US',
+                        ),
+                    ),
+                );
+            $accesspoint_notifications[] = array(
+                    'Notification' => array(
+                        'NotificationCode'=>'013',
+                        'EMailMessage'=> array(
+                            'EMailAddress' => $order_details->billing_email,
+                        ),
+                        'Locale'=>array(
+                            'Language'=>'ENG',
+                            'Dialect'=>'US',
+                        ),
+                    ),
+                );
+            $confirm_accesspoint_request['ShipmentServiceOptions']['Notification']	=	array_merge(array('multi_node'=>1), $accesspoint_notifications);
         }
 
-function wf_create_package( $order, $to_address=array() ){
+        return $confirm_accesspoint_request;
+    }
+    private function get_code_from_label_type( $label_type ){
+        switch ($label_type) {
+            case 'zpl':
+            $code_val = 'ZPL';
+            break;
+            case 'epl':
+            $code_val = 'EPL';
+            break;
+            case 'png':
+            $code_val = 'ZPL';
+            break;
+            default:
+            $code_val = 'GIF';
+            break;
+        }
+        return array('Code'=>$code_val);
+    }
+
+    private function wf_get_shipment_description( $order ){
+        $shipment_description	= '\nOrder Id - '.$order->get_order_number().'\n';
+        $order_items	= $order->get_items();
+
+        $shipment_description	.=	'Items - ';
+        if(is_array($order_items) && count($order_items)){
+            foreach( $order_items as $order_item ) {
+                $product = $this->get_product_from_order_item($order_item);
+                if( is_a( $product, 'WC_Product' ) && $product->needs_shipping() )
+                    $shipment_description 	.= $product->get_title().', ';
+            }
+        }
+
+        if ('' == $shipment_description ) {
+            $shipment_description = 'Package/customer supplied.';
+        }
+        $shipment_description = htmlspecialchars( $shipment_description );
+        $shipment_description = apply_filters('wf_ups_alter_shipment_desription' ,$shipment_description);
+        $shipment_description = ( strlen( $shipment_description ) >= 50 ) ? substr( $shipment_description, 0, 45 ).'...' : $shipment_description;
+        return $shipment_description;
+    }
+
+    /**
+     * Get Product from Order Line Item.
+     * @param array|object $line_item Array in less than woocommerce 3.0 else Object
+     * @return object WC_Product|null|false
+     */
+    public function get_product_from_order_item( $line_item ) {
+
+        if( self::$wc_version < '3.0.0' ) {
+            $product_id = ! empty($line_item['variation_id']) ? $line_item['variation_id'] : $line_item['product_id'];
+            $product = wc_get_product($product_id);
+        }
+        else{
+            $product = $line_item->get_product();
+        }
+        return $product;
+    }
+
+    function wf_get_package_data( $order, $ship_options=array(), $to_address=array() ) {
+
+        $packages	= $this->wf_create_package( $order, $to_address );
+        $order_id 	= ( WC()->version < '3.0' ) ? $order->id : $order->get_id();
+
+        if ( ! class_exists( 'WF_Shipping_UPS' ) ) {
+            include_once 'class-wf-shipping-ups.php';
+        }
+        $this->wcsups 			= new WF_Shipping_UPS( $order );
+        $package_data_array	= array();
+
+        if(!isset($ship_options['return_label']) || !$ship_options['return_label']){ // If return label is printing, cod can't be applied
+            $this->wcsups->wf_set_cod_details($order);
+        }
+
+        // Set Insurance value false
+        $order_subtotal = $order->get_subtotal();
+        if( $order_subtotal < $this->min_order_amount_for_insurance ) {
+            $this->wcsups->insuredvalue = false;
+        }
+
+        $service_code=get_post_meta($order->id,'wf_ups_selected_service',1);
+        if($service_code) {
+            $this->wcsups->wf_set_service_code($service_code);
+            if(in_array($service_code, array(92,93,94,95))) {// Insurance value doen't wprk with sure post services
+                $this->wcsups->insuredvalue = false;
+            }
+        }
+
+        $package_params	=	array();
+        if(isset($ship_options['delivery_confirmation_applicable'])){
+            $package_params['delivery_confirmation_applicable']	=	$ship_options['delivery_confirmation_applicable'];
+        }
+
+        $packing_method  	= isset( $this->settings['packing_method'] ) ? $this->settings['packing_method'] : 'per_item';
+        $package_data = array();
+        foreach( $packages as $key => $package ) {
+            $package = apply_filters( 'wf_customize_package_on_generate_label', $package, $order_id );		//Filter to customize the package, for example to support bundle product
+            $temp_package_data 		= $this->wcsups->wf_get_api_rate_box_data( $package, $packing_method, $package_params);
+            if(is_array($temp_package_data) ) {
+                $package_data = array_merge($package_data, $temp_package_data);
+            }
+        }
+        return $package_data;
+    }
+
+    function wf_create_package( $order, $to_address=array() ){
 
 	$orderItems = $order->get_items();
 
@@ -1876,254 +1880,392 @@ function wf_create_package( $order, $to_address=array() ){
 		return true;
 	}
 
-function wf_ups_generate_packages(){
-	$query_string 		= 	explode('|', base64_decode($_GET['wf_ups_generate_packages']));
-	$post_id 		= 	$query_string[1];
-	$order			= 	$this->wf_load_order( $post_id );
-	$order_items		=	$order->get_items();
-	if( empty($order_items) && class_exists('WC_Admin_Meta_Boxes') ) {
-		WC_Admin_Meta_Boxes::add_error(__('UPS - No product Found.'));
-		wp_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-		exit();
-	}
-	$package_data		=	$this->wf_get_package_data($order);
+    function wf_ups_generate_packages(){
+        $query_string 		= 	explode('|', base64_decode($_GET['wf_ups_generate_packages']));
+        $post_id 		= 	$query_string[1];
+        $order			= 	$this->wf_load_order( $post_id );
+        $order_items		=	$order->get_items();
+        if( empty($order_items) && class_exists('WC_Admin_Meta_Boxes') ) {
+            WC_Admin_Meta_Boxes::add_error(__('UPS - No product Found.'));
+            wp_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+            exit();
+        }
+        $package_data		=	$this->wf_get_package_data($order);
 
-	if(empty($package_data)) {
-			//wf_admin_notice::add_notice('Unable to generate packages. Your product may be missing weight/length/width/height.');
-		$package['Package']['PackagingType'] = array(
-			'Code' => '02',
-			'Description' => 'Package/customer supplied'
-			);
+        if(empty($package_data)) {
+                //wf_admin_notice::add_notice('Unable to generate packages. Your product may be missing weight/length/width/height.');
+            $package['Package']['PackagingType'] = array(
+                'Code' => '02',
+                'Description' => 'Package/customer supplied'
+                );
 
-		$package['Package']	=	array(
-			'PackagingType'	=>	array(
-				'Code'				=>	'02',
-				'Description'	=>	'Package/customer supplied'
-				),
-			'Description'	=> 'Rate',
-			'Dimensions'	=>	array(
-				'UnitOfMeasurement'	=>	array(
-					'Code'	=>	$this->dim_unit,
-					),
-				'Length'	=>	0,
-				'Width'		=>	0,
-				'Height'	=>	0
-				),
-			'PackageWeight' => array(
-				'UnitOfMeasurement'	=>	array(
-					'Code'	=>	$this->weight_unit,
-					),
-				'Weight'	=>	0
-				),
-			'PackageServiceOptions' => array(
-				'InsuredValue'	=> array(
-					'CurrencyCode'	=>$this->wcsups->get_ups_currency(),
-					'MonetaryValue'	=> 0
-					)
-				)
-			);
-		update_post_meta( $post_id, '_wf_ups_stored_packages', $package );
-		$package_data=$package;
-	} else {
-		update_post_meta( $post_id, '_wf_ups_stored_packages', $package_data );
-	}
-	
-	do_action( 'wf_after_package_generation', $post_id,$package_data);
-	// Redirect Only if headers has not been already sent
-	if( ! headers_sent() ) {
-		wp_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-	}
-	exit;
-}
+            $package['Package']	=	array(
+                'PackagingType'	=>	array(
+                    'Code'				=>	'02',
+                    'Description'	=>	'Package/customer supplied'
+                    ),
+                'Description'	=> 'Rate',
+                'Dimensions'	=>	array(
+                    'UnitOfMeasurement'	=>	array(
+                        'Code'	=>	$this->dim_unit,
+                        ),
+                    'Length'	=>	0,
+                    'Width'		=>	0,
+                    'Height'	=>	0
+                    ),
+                'PackageWeight' => array(
+                    'UnitOfMeasurement'	=>	array(
+                        'Code'	=>	$this->weight_unit,
+                        ),
+                    'Weight'	=>	0
+                    ),
+                'PackageServiceOptions' => array(
+                    'InsuredValue'	=> array(
+                        'CurrencyCode'	=>$this->wcsups->get_ups_currency(),
+                        'MonetaryValue'	=> 0
+                        )
+                    )
+                );
+            update_post_meta( $post_id, '_wf_ups_stored_packages', $package );
+            $package_data=$package;
+        } else {
+            update_post_meta( $post_id, '_wf_ups_stored_packages', $package_data );
+        }
 
-function wf_ups_shipment_confirm(){
-	if( !$this->wf_user_check(isset($_GET['auto_generate'])?$_GET['auto_generate']:null) ) {
-		echo "You don't have admin privileges to view this page.";
-		exit;
-	}
+        do_action( 'wf_after_package_generation', $post_id,$package_data);
+        // Redirect Only if headers has not been already sent
+        if( ! headers_sent() ) {
+            wp_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+        }
+        exit;
+    }
 
-	$query_string 		= explode('|', base64_decode($_GET['wf_ups_shipment_confirm']));
-	$post_id 			= $query_string[1];
+    function wf_ups_shipment_confirm() {
 
-	// Stop Label generation if label has been already generated
-	$old_label_details = get_post_meta( $post_id, 'ups_label_details_array', true );
-	if( ! empty($old_label_details) ) {
-		WC_Admin_Meta_Boxes::add_error( __( "UPS Label has been already generated.", 'ups-woocommerce-shipping' ) );
-		exit;
-	}
+        if( !$this->wf_user_check(isset($_GET['auto_generate'])?$_GET['auto_generate']:null) ) {
+            echo "You don't have admin privileges to view this page.";
+            exit;
+        }
+        $query_string 		= explode('|', base64_decode($_GET['wf_ups_shipment_confirm']));
+        $post_id 			= $query_string[1];
+        // Stop Label generation if label has been already generated
+        $old_label_details = get_post_meta( $post_id, 'ups_label_details_array', true );
+        if( ! empty($old_label_details) ) {
+            WC_Admin_Meta_Boxes::add_error( __( "UPS Label has been already generated.", 'ups-woocommerce-shipping' ) );
+            $this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+            exit;
+        }
 
-	// Load UPS Settings.
-	$ups_settings 		= get_option( 'woocommerce_'.WF_UPS_ID.'_settings', null ); 
-		// API Settings
-	$api_mode      		= isset( $ups_settings['api_mode'] ) ? $ups_settings['api_mode'] : 'Test';
-	$debug_mode      	= isset( $ups_settings['debug'] ) && $ups_settings['debug'] == 'yes' ? true : false;
-	$wf_ups_selected_service	= isset( $_GET['wf_ups_selected_service'] ) ? $_GET['wf_ups_selected_service'] : '';
+        // Load UPS Settings.
+        $ups_settings 		= get_option( 'woocommerce_'.WF_UPS_ID.'_settings', null );
+            // API Settings
+        $api_mode      		= isset( $ups_settings['api_mode'] ) ? $ups_settings['api_mode'] : 'Test';
+        $debug_mode      	= isset( $ups_settings['debug'] ) && $ups_settings['debug'] == 'yes' ? true : false;
+        $wf_ups_selected_service	= isset( $_GET['wf_ups_selected_service'] ) ? $_GET['wf_ups_selected_service'] : '';
 
-	update_post_meta( $post_id, 'wf_ups_selected_service', $wf_ups_selected_service );
+        update_post_meta( $post_id, 'wf_ups_selected_service', $wf_ups_selected_service );
 
-	$cod	= isset( $_GET['cod'] ) ? $_GET['cod'] : '';
-	if($cod=='true'){
-		update_post_meta( $post_id, '_wf_ups_cod', true );
-	}else{
-		delete_post_meta( $post_id, '_wf_ups_cod');
-	}
+        $cod	= isset( $_GET['cod'] ) ? $_GET['cod'] : '';
+        if($cod=='true'){
+            update_post_meta( $post_id, '_wf_ups_cod', true );
+        }else{
+            delete_post_meta( $post_id, '_wf_ups_cod');
+        }
 
-	$sat_delivery	= isset( $_GET['sat_delivery'] ) ? $_GET['sat_delivery'] : '';
-	if($sat_delivery=='true'){
-		update_post_meta( $post_id, '_wf_ups_sat_delivery', true );
-	}else{
-		delete_post_meta( $post_id, '_wf_ups_sat_delivery');
-	}
+        $sat_delivery	= isset( $_GET['sat_delivery'] ) ? $_GET['sat_delivery'] : '';
+        if($sat_delivery=='true'){
+            update_post_meta( $post_id, '_wf_ups_sat_delivery', true );
+        }else{
+            delete_post_meta( $post_id, '_wf_ups_sat_delivery');
+        }
 
-	$is_return_label	= isset( $_GET['is_return_label'] ) ? $_GET['is_return_label'] : '';
-	if($is_return_label=='true'){
-		$ups_return=true;
-	}
-	else{
-		$ups_return=false;
-	}
+        $is_return_label	= isset( $_GET['is_return_label'] ) ? $_GET['is_return_label'] : '';
+        if($is_return_label=='true'){
+            $ups_return=true;
+        }
+        else{
+            $ups_return=false;
+        }
 
-	$order				= $this->wf_load_order( $post_id );
+        $order				= $this->wf_load_order( $post_id );
 
-	$requests = $this->wf_ups_shipment_confirmrequest( $order );
+        $requests = $this->wf_ups_shipment_confirmrequest( $order );
 
-	$created_shipments_details_array = array();
+        $created_shipments_details_array = array();
+            $return_package_index=0;
+        foreach($requests as $request){
+            if( $debug_mode ) {
+                echo '<div style="background: #eee;overflow: auto;padding: 10px;margin: 10px;">SHIPMENT CONFIRM REQUEST: ';
+                echo '<xmp>'.$request.'</xmp></div>';
+            }
+
+            if( !$request ) {
+                    // Due to some error and request not available, But the error is not catched
+                wf_admin_notice::add_notice('Sorry. Something went wrong: please turn on debug mode to investigate more.');
+                $this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+                    exit;//return;
+                }
+                if( "Live" == $api_mode ) {
+                    $endpoint = 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm';
+                    $freight_endpoint='https://onlinetools.ups.com/rest/FreightShip';
+                }
+                else {
+                    $endpoint = 'https://wwwcie.ups.com/ups.app/xml/ShipConfirm';
+                    $freight_endpoint='https://wwwcie.ups.com/rest/FreightShip';
+                }
+
+                $xml_request = str_replace( array( "\n", "\r" ), '', $request );
+                if(!is_array($request) && json_decode( $request ) !==null)
+                {
+                    $response = wp_remote_post( $freight_endpoint,
+                        array(
+                            'timeout'   => 70,
+                            'sslverify' => $this->ssl_verify,
+                            'body'      => $xml_request
+                            )
+                        );
+                }
+                else
+                {
+                    $xml_request = $this->modfiy_encoding($xml_request);
+                    $response = wp_remote_post( $endpoint,
+                        array(
+                            'timeout'   => 70,
+                            'sslverify' => $this->ssl_verify,
+                            'body'      => $xml_request
+                            )
+                        );
+                }
+                if( $debug_mode && is_array($response)) {
+                    echo '<div style="background:#ccc;background: #ccc;overflow: auto;padding: 10px;margin: 10px 10px 50px 10px;">SHIPMENT CONFIRM RESPONSE: ';
+                    echo '<xmp>'.print_r($response['body'],1).'</xmp></div>';
+                }
+
+                if ( is_wp_error( $response ) ) {
+                    $error_message = $response->get_error_message();
+                    wf_admin_notice::add_notice('Sorry. Something went wrong: '.$error_message);
+                    $this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+                    exit;
+                }
+                $req_arr=array();
+                if(!is_array($request))
+                {
+                    $req_arr=json_decode($request);
+                }
+
+                if(!is_array($request) && isset($req_arr->FreightShipRequest) && isset($req_arr->FreightShipRequest->Shipment->Service->Code)
+                    && in_array($req_arr->FreightShipRequest->Shipment->Service->Code,array_keys($this->freight_services))
+                   )				// For Freight Shipments  as it is JSON not Array
+                    {	try{
+                        $var=json_decode($response['body']);
+                        if( ! empty($var->Fault ) ) {
+                            WC_Admin_Meta_Boxes::add_error($var->Fault->detail->Errors->ErrorDetail->PrimaryErrorCode->Description);
+                            $this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+                            exit;
+                        }
+
+                    }
+                    catch(Exception $e)
+                    {
+                        $this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+                        exit;
+                    }
+                    $created_shipments_details = array();
+                    $shipment_id = (string)$var->FreightShipResponse->ShipmentResults->ShipmentNumber;
+
+                    $created_shipments_details["ShipmentDigest"] = (string)$var->FreightShipResponse->ShipmentResults->ShipmentNumber;
+                    $created_shipments_details["BOLID"] = (string)$var->FreightShipResponse->ShipmentResults->BOLID;
+                    $created_shipments_details["type"] = "freight";
+                    try{
+                        $img=(string)$var->FreightShipResponse->ShipmentResults->Documents->Image->GraphicImage;
+                    }catch(Exception $ex){$img='';}
+
+                    $created_shipments_details_array[$shipment_id] = $created_shipments_details;
+                    $this->wf_ups_freight_accept_shipment($img,$shipment_id,$created_shipments_details["BOLID"],$post_id);
+                }else
+                {
+                    // 403 Access Forbidden
+                    if( ! empty($response['response']['code']) && $response['response']['code'] == 403 ) {
+                        wf_admin_notice::add_notice( $response['response']['message']." You don't have permission to access http://www.ups.com/ups.app/xml/ShipConfirm on this server [Error Code: 403]");
+                        $this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+                        exit;
+                    }
+
+                    $response_obj = simplexml_load_string( $response['body'] );
+
+                    $response_code = (string)$response_obj->Response->ResponseStatusCode;
+                    if( '0' == $response_code ) {
+                        $error_code = (string)$response_obj->Response->Error->ErrorCode;
+                        $error_desc = (string)$response_obj->Response->Error->ErrorDescription;
+
+
+                        wf_admin_notice::add_notice($error_desc.' [Error Code: '.$error_code.']');
+                        $this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+                        exit;
+                    }
+
+                    $created_shipments_details = array();
+                    $shipment_id = (string)$response_obj->ShipmentIdentificationNumber;
+
+                    $created_shipments_details["ShipmentDigest"] 			= (string)$response_obj->ShipmentDigest;
+
+                    $created_shipments_details_array[$shipment_id] = $created_shipments_details;
+                    $created_shipments_xml_request[$shipment_id]		= $request;
+
+                    // Creating Return Label
+                    if($ups_return){
+                        $return_label = $this->wf_ups_return_shipment_confirm($shipment_id,$return_package_index);
+                        if( !empty($return_label) ){
+                            $created_shipments_details_array[$shipment_id]['return'] = $return_label;
+                        }
+                    }
+                }
+                            $return_package_index++;
+            }
+            update_post_meta( $post_id, 'ups_created_shipments_xml_request_array', $created_shipments_xml_request );
+            update_post_meta( $post_id, 'ups_created_shipments_details_array', $created_shipments_details_array );
+            $this->ups_accept_shipment($post_id);
+            $this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
+            exit;
+        }
+
+
+//Custom Coding Start --- Shipment Confirm
+    function wf_ups_custom_shipment_confirm($order_id, $data){
+
+        $post_id 			= $order_id;
+        // Load UPS Settings.
+        $ups_settings 		= get_option( 'woocommerce_'.WF_UPS_ID.'_settings', null );
+            // API Settings
+        $api_mode      		= isset( $ups_settings['api_mode'] ) ? $ups_settings['api_mode'] : 'Test';
+        $debug_mode      	= isset( $ups_settings['debug'] ) && $ups_settings['debug'] == 'yes' ? true : false;
+
+        $order				= $this->wf_load_order( $post_id );
+
+        $requests = $this->wf_ups_shipment_confirmrequest( $order );
+
+        $created_shipments_details_array = array();
         $return_package_index=0;
-	foreach($requests as $request){
-		if( $debug_mode ) {
-			echo '<div style="background: #eee;overflow: auto;padding: 10px;margin: 10px;">SHIPMENT CONFIRM REQUEST: ';
-			echo '<xmp>'.$request.'</xmp></div>'; 
-		}
 
-		if( !$request ) {
-				// Due to some error and request not available, But the error is not catched
-			wf_admin_notice::add_notice('Sorry. Something went wrong: please turn on debug mode to investigate more.');
-			$this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-				exit;//return;
-			}
-			if( "Live" == $api_mode ) {
-				$endpoint = 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm';
-				$freight_endpoint='https://onlinetools.ups.com/rest/FreightShip';
-			}
-			else {
-				$endpoint = 'https://wwwcie.ups.com/ups.app/xml/ShipConfirm';
-				$freight_endpoint='https://wwwcie.ups.com/rest/FreightShip';
-			}
+        foreach($requests as $request){
+            if( !$request ) {
+                wf_admin_notice::add_notice('Sorry. Something went wrong: please turn on debug mode to investigate more.');
+                return false;
+            }
+            if( "Live" == $api_mode ) {
+                $endpoint = 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm';
+                $freight_endpoint='https://onlinetools.ups.com/rest/FreightShip';
+            }
+            else {
+                $endpoint = 'https://wwwcie.ups.com/ups.app/xml/ShipConfirm';
+                $freight_endpoint='https://wwwcie.ups.com/rest/FreightShip';
+            }
 
-			$xml_request = str_replace( array( "\n", "\r" ), '', $request );
-			if(!is_array($request) && json_decode( $request ) !==null)
-			{	
-				$response = wp_remote_post( $freight_endpoint,
-					array(
-						'timeout'   => 70,
-						'sslverify' => $this->ssl_verify,
-						'body'      => $xml_request
-						)
-					);				
-			}
-			else
-			{
-				$xml_request = $this->modfiy_encoding($xml_request);
-				$response = wp_remote_post( $endpoint,
-					array(
-						'timeout'   => 70,
-						'sslverify' => $this->ssl_verify,
-						'body'      => $xml_request
-						)
-					);
-			}
-			if( $debug_mode && is_array($response)) {
-				echo '<div style="background:#ccc;background: #ccc;overflow: auto;padding: 10px;margin: 10px 10px 50px 10px;">SHIPMENT CONFIRM RESPONSE: ';
-				echo '<xmp>'.print_r($response['body'],1).'</xmp></div>'; 
-			}
-			
-			if ( is_wp_error( $response ) ) {
-				$error_message = $response->get_error_message();
-				wf_admin_notice::add_notice('Sorry. Something went wrong: '.$error_message);			
-				$this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-				exit;
-			}		
-			$req_arr=array();
-			if(!is_array($request))
-			{
-				$req_arr=json_decode($request);
-			}
+            $xml_request = str_replace( array( "\n", "\r" ), '', $request );
 
-			if(!is_array($request) && isset($req_arr->FreightShipRequest) && isset($req_arr->FreightShipRequest->Shipment->Service->Code)
-				&& in_array($req_arr->FreightShipRequest->Shipment->Service->Code,array_keys($this->freight_services))
-			   )				// For Freight Shipments  as it is JSON not Array
-				{	try{
-					$var=json_decode($response['body']);
-					if( ! empty($var->Fault ) ) {
-						WC_Admin_Meta_Boxes::add_error($var->Fault->detail->Errors->ErrorDetail->PrimaryErrorCode->Description);
-						$this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-						exit;
-					}
+            if(!is_array($request) && json_decode( $request ) !==null)
+            {
+                $response = wp_remote_post( $freight_endpoint,
+                    array(
+                        'timeout'   => 70,
+                        'sslverify' => $this->ssl_verify,
+                        'body'      => $xml_request
+                        )
+                    );
+            }
+            else
+            {
+                $xml_request = $this->modfiy_encoding($xml_request);
+                $response = wp_remote_post( $endpoint,
+                    array(
+                        'timeout'   => 70,
+                        'sslverify' => $this->ssl_verify,
+                        'body'      => $xml_request
+                        )
+                    );
+            }
 
-				}
-				catch(Exception $e)
-				{
-					$this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-					exit;
-				}
-				$created_shipments_details = array();
-				$shipment_id = (string)$var->FreightShipResponse->ShipmentResults->ShipmentNumber;
+            if ( is_wp_error( $response ) ) {
+                $error_message = $response->get_error_message();
+                wf_admin_notice::add_notice('Sorry. Something went wrong: '.$error_message);
+                return false;
+            }
+            $req_arr=array();
+            if(!is_array($request))
+            {
+                $req_arr=json_decode($request);
+            }
 
-				$created_shipments_details["ShipmentDigest"] = (string)$var->FreightShipResponse->ShipmentResults->ShipmentNumber;
-				$created_shipments_details["BOLID"] = (string)$var->FreightShipResponse->ShipmentResults->BOLID;
-				$created_shipments_details["type"] = "freight";
-				try{
-					$img=(string)$var->FreightShipResponse->ShipmentResults->Documents->Image->GraphicImage;
-				}catch(Exception $ex){$img='';}
+            if(!is_array($request) && isset($req_arr->FreightShipRequest)
+                && isset($req_arr->FreightShipRequest->Shipment->Service->Code)
+                && in_array($req_arr->FreightShipRequest->Shipment->Service->Code,array_keys($this->freight_services)) )
+                // For Freight Shipments  as it is JSON not Array
+            {
+                try{
+                $var=json_decode($response['body']);
+                if( ! empty($var->Fault ) ) {
+                    WC_Admin_Meta_Boxes::add_error($var->Fault->detail->Errors->ErrorDetail->PrimaryErrorCode->Description);
+                    return false;
+                }
+                }
+                catch(Exception $e)
+                {
+                    return false;
+                }
+                $created_shipments_details = array();
+                $shipment_id = (string)$var->FreightShipResponse->ShipmentResults->ShipmentNumber;
 
-				$created_shipments_details_array[$shipment_id] = $created_shipments_details;
-				$this->wf_ups_freight_accept_shipment($img,$shipment_id,$created_shipments_details["BOLID"],$post_id);
-			}else
-			{
-				// 403 Access Forbidden
-				if( ! empty($response['response']['code']) && $response['response']['code'] == 403 ) {
-					wf_admin_notice::add_notice( $response['response']['message']." You don't have permission to access http://www.ups.com/ups.app/xml/ShipConfirm on this server [Error Code: 403]");
-					$this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-					exit;
-				}
+                $created_shipments_details["ShipmentDigest"] = (string)$var->FreightShipResponse->ShipmentResults->ShipmentNumber;
+                $created_shipments_details["BOLID"] = (string)$var->FreightShipResponse->ShipmentResults->BOLID;
+                $created_shipments_details["type"] = "freight";
+                try{
+                    $img=(string)$var->FreightShipResponse->ShipmentResults->Documents->Image->GraphicImage;
+                }catch(Exception $ex){$img='';}
 
-				$response_obj = simplexml_load_string( $response['body'] );
-				
-				$response_code = (string)$response_obj->Response->ResponseStatusCode;
-				if( '0' == $response_code ) {
-					$error_code = (string)$response_obj->Response->Error->ErrorCode;
-					$error_desc = (string)$response_obj->Response->Error->ErrorDescription;
-					
-					
-					wf_admin_notice::add_notice($error_desc.' [Error Code: '.$error_code.']');
-					$this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-					exit;
-				}			
-				
-				$created_shipments_details = array();
-				$shipment_id = (string)$response_obj->ShipmentIdentificationNumber;
-				
-				$created_shipments_details["ShipmentDigest"] 			= (string)$response_obj->ShipmentDigest;
+                $created_shipments_details_array[$shipment_id] = $created_shipments_details;
+                $this->wf_ups_freight_accept_shipment($img,$shipment_id,$created_shipments_details["BOLID"],$post_id);
+            }
+            else {
+                // 403 Access Forbidden
+                if( ! empty($response['response']['code']) && $response['response']['code'] == 403 ) {
+                    wf_admin_notice::add_notice( $response['response']['message']." You don't have permission to access http://www.ups.com/ups.app/xml/ShipConfirm on this server [Error Code: 403]");
+                    return false;
+                }
+                $response_obj = simplexml_load_string( $response['body'] );
 
-				$created_shipments_details_array[$shipment_id] = $created_shipments_details;
-				$created_shipments_xml_request[$shipment_id]		= $request;
+                $response_code = (string)$response_obj->Response->ResponseStatusCode;
+                if( '0' == $response_code ) {
+                    $error_code = (string)$response_obj->Response->Error->ErrorCode;
+                    $error_desc = (string)$response_obj->Response->Error->ErrorDescription;
 
-				// Creating Return Label 		
-				if($ups_return){
-					$return_label = $this->wf_ups_return_shipment_confirm($shipment_id,$return_package_index);
-					if( !empty($return_label) ){
-						$created_shipments_details_array[$shipment_id]['return'] = $return_label;
-					}
-				}
-			}
-                        $return_package_index++;
-		}
-		update_post_meta( $post_id, 'ups_created_shipments_xml_request_array', $created_shipments_xml_request );
-		update_post_meta( $post_id, 'ups_created_shipments_details_array', $created_shipments_details_array );
-		$this->ups_accept_shipment($post_id);
-		$this->wf_redirect( admin_url( '/post.php?post='.$post_id.'&action=edit') );
-		exit;
-	}
+                    wf_admin_notice::add_notice($error_desc.' [Error Code: '.$error_code.']');
+                    return false;
+                }
+                $created_shipments_details = array();
+                $shipment_id = (string)$response_obj->ShipmentIdentificationNumber;
+
+                $created_shipments_details["ShipmentDigest"] 			= (string)$response_obj->ShipmentDigest;
+
+                $created_shipments_details_array[$shipment_id] = $created_shipments_details;
+                $created_shipments_xml_request[$shipment_id]		= $request;
+
+                // Creating Return Label
+                if($ups_return){
+                    $return_label = $this->wf_ups_return_shipment_confirm($shipment_id,$return_package_index);
+                    if( !empty($return_label) ){
+                        $created_shipments_details_array[$shipment_id]['return'] = $return_label;
+                    }
+                }
+            }
+            $return_package_index++;
+        }
+
+
+        update_post_meta( $post_id, 'ups_created_shipments_xml_request_array', $created_shipments_xml_request );
+        update_post_meta( $post_id, 'ups_created_shipments_details_array', $created_shipments_details_array );
+        $this->ups_accept_shipment($post_id);
+    }
+//Custom Coding End --- Shipment Confirm
 
 	function wf_ups_freight_accept_shipment($img,$shipment_id,$BOLID,$order_id)
 	{
@@ -2631,7 +2773,7 @@ function wf_ups_shipment_confirm(){
 		}
 		exit;
 	}
-	
+
 	function wf_ups_print_commercial_invoice(){
 		$req_data	= explode('|',base64_decode($_GET['wf_ups_print_commercial_invoice']));
 		
@@ -2920,14 +3062,22 @@ function wf_ups_shipment_confirm(){
 		//TODO: Take the first shipping method. The use case of multiple shipping method for single order is not handled.
 		
 		$shipping_methods = $order->get_shipping_methods();
+
 		if ( ! $shipping_methods ) {
 			return false;
 		}
 
 		$shipping_method			= array_shift( $shipping_methods );
+
 		// It will work after ups version 3.9.14.19
 		
 		if(self::$wc_version >= '3.0.0') $shipping_method_ups_meta 	= $shipping_method->get_meta('_xa_ups_method');
+
+		//Custom Coding Start Force Set shipping_method_ups_meta
+		if ($shipping_method_ups_meta=="")
+		    $shipping_method_ups_meta = array('id'=>"wf_shipping_ups:11","method_title"=>"UPS Standard (UPS)");
+		//Custom Coding End Force Set shipping_method_ups_meta
+
 		// $shipping_method['method_id'] for older version compatibility till 3.9.14.19
 		$selected_service 			= ! empty($shipping_method_ups_meta) ? $shipping_method_ups_meta['id'] : $shipping_method['method_id'];
 		$shipping_service_tmp_data	= explode( ':', $selected_service );
@@ -3097,25 +3247,25 @@ function split_shipment_by_services($ship_packages, $order, $return_label=false)
 			'packages'			=>	$ship_packages,
 			);
 	}else{
-				$order_id = ( WC()->version < '3.0' ) ? $order->id : $order->get_id();
-				// Services for return label if label has been generated previously
-				if( ! empty($_GET['xa_generate_return_label'] ) ) {
-					$service_arr = json_decode(html_entity_decode(base64_decode($_GET["rt_service"])));
-				}
-				else {	// Services for label
-					$service_arr            =       json_decode(stripslashes(html_entity_decode($_GET["service"])));
-					update_post_meta( $order_id, 'xa_ups_generated_label_services',$_GET["service"]);
-					if($return_label)
-					{	// Services for return label if it is being generated at the time of label creation only
-						$service_arr=      json_decode(stripslashes(html_entity_decode($_GET["rt_service"])));
-					}
-				}
+        $order_id = ( WC()->version < '3.0' ) ? $order->id : $order->get_id();
+        // Services for return label if label has been generated previously
+        if( ! empty($_GET['xa_generate_return_label'] ) ) {
+            $service_arr = json_decode(html_entity_decode(base64_decode($_GET["rt_service"])));
+        }
+        else {	// Services for label
+            $service_arr            =       json_decode(stripslashes(html_entity_decode($_GET["service"])));
+            update_post_meta( $order_id, 'xa_ups_generated_label_services',$_GET["service"]);
+            if($return_label)
+            {	// Services for return label if it is being generated at the time of label creation only
+                $service_arr=      json_decode(stripslashes(html_entity_decode($_GET["rt_service"])));
+            }
+        }
 
-				foreach($service_arr as $count => $service_code){
-				if(isset($ship_packages[$count] ) ) {
-					$shipment_arr[$service_code][]	=	$ship_packages[$count];
-				}
-		}
+        foreach($service_arr as $count => $service_code){
+            if(isset($ship_packages[$count] ) ) {
+                $shipment_arr[$service_code][]	=	$ship_packages[$count];
+            }
+        }
 
 
 		foreach($shipment_arr as $service_code => $packages){
@@ -3743,8 +3893,8 @@ function ups_accept_shipment($order_id){
 			wf_admin_notice::add_notice('Order #'. $order_id.': Shipment accepted successfully. Labels are ready for printing.','notice');
 			
 		}
-		return true;
-	}
+    return true;
+}
 	
 	function get_order_label_links($order_id){
 		$links	=	array();

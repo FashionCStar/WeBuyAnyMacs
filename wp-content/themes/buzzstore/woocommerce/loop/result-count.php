@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!--                        <a href="/Sell/MacBook/4">4</a>-->
 <!--                    </div>-->
 
-                    <nav class="woocommerce-pagination">
+                    <nav class="woocommerce-pagination" style="display: none;">
                         <?php
                         $total_pages   = isset( $total_pages ) ? $total_pages : wc_get_loop_prop( 'total_pages' );
                         $current1 = isset( $current ) ? $current : wc_get_loop_prop( 'current_page' );

@@ -11,16 +11,47 @@
  *
  * @package Buzz_Store
  */
-get_header(); ?>
+get_header();
+
+$orderby = 'name';
+$order = 'asc';
+$hide_empty = false ;
+$cat_args = array(
+    'orderby'    => $orderby,
+    'order'      => $order,
+    'hide_empty' => $hide_empty,
+);
+
+$product_categories = get_terms( 'product_cat', $cat_args );
+
+?>
 
 
     <div id="site_slider" class="hidden-xs hidden-sm">
         <div id="search_container">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div id="inner_search_input">
-                            <input id="autocomplete" type="text" placeholder="Enter Item or Model Number or Part Number (e.g iPhone 7)"
+
+                    <div class="col-xs-12 col-sm-6">
+                        <div id="inner_search_serial_input">
+
+<!--                            <input id="autocomplete2" type="text" placeholder="Enter Title (e.g iPhone 7)"-->
+<!--                                   class="ui-autocomplete-input" autocomplete="off">-->
+<!--                            <i id="search_icon2" class="fa"></i>-->
+<!--                            <div id="autosearch-container2" style="position:absolute; width: 100%;">-->
+<!--                                <ul id="ui-id-2" tabindex="0"-->
+<!--                                    class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"-->
+<!--                                    style="display: none;">-->
+<!--                                </ul>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-6">
+                        <div id="inner_search_title_input">
+
+                            <input id="autocomplete" type="text" placeholder="Enter Title (e.g iPhone 7)"
                                    class="ui-autocomplete-input" autocomplete="off">
                             <i id="search_icon" class="fa"></i>
                             <div id="autosearch-container" style="position:absolute; width: 100%;">
@@ -34,18 +65,22 @@ get_header(); ?>
                 </div>
             </div>
         </div>
-        <img src="<?php echo get_template_directory_uri() . "/assets/images/slider.png"?>" alt="WeBuyAnyMacs">
+        <img style="width:100%" src="<?php echo get_template_directory_uri() . "/assets/images/slider.png"?>" alt="WeBuyAnyMacs">
 
     </div>
     <div id="webuy-icons" class="hidden-lg hidden-md">
         <div class="container">
             <div class="row" id="intimes_mobile">
+                <?php
+                if( !empty($product_categories) ){
+                ?>
                 <div class="col-sm-6 col-sm-4">
-                    <a href="/Sell/iMac/">
-                        <div class="flaticon-imac"></div>
-                        Sell iMac
+                    <a href="<?php echo get_term_link($category) ?>">
+                        <div class="flaticon-<?php echo $category->slug ?>"></div>
+                        Sell <?php echo $category->name ?>
                     </a>
                 </div>
+                <?php } ?>
                 <div class="col-sm-6 col-sm-4">
                     <a href="/Sell/MacBook/">
                         <div class="flaticon-macbook"></div>
@@ -101,50 +136,47 @@ get_header(); ?>
                             <div class="item active">
                                 <div class="row">
                                     <i class="fa arr-go hidden-xs hidden-sm"></i>
-                                    <div class="col-sm-6 col-md-3">
-                                        <a href="/Sell/Apple/MacBook-Pro/MacBook-Pro-Core-i5-2.0-13-256GB-Space-Grey-Late-2016/">
-                                            <div class="pro_img">
-                                                <img alt="MacBook Pro Core i5 2.0 13 256GB - Space Grey - Late 2016"
-                                                        src="<?php echo get_template_directory_uri()."/assets/products/lt-image.jpg" ?>">
-                                            </div>
-                                            <h2>MacBook Pro "Core i5" 2.0 13" 256GB - Space Grey - Late 2016</h2>
-                                            <h5>We paid Ireneusz <span>£459</span></h5>
-                                            <h6><i class="fa"></i>Pastusiak</h6>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3">
-                                        <a href="/Sell/Apple/MacBook-Pro/MacBook-Pro-Core-i7-2.2-15-256GB-Retina-Mid-2015/">
-                                            <div class="pro_img">
-                                                <img alt="MacBook Pro Core i7 2.2 15 256GB Retina Mid-2015"
-                                                        src="<?php echo get_template_directory_uri()."/assets/products/lt-image.jpg" ?>">
-                                            </div>
-                                            <h2>MacBook Pro "Core i7" 2.2 15" 256GB Retina Mid-2015</h2>
-                                            <h5>We paid Sara <span>£629</span></h5>
-                                            <h6><i class="fa"></i>Hayes</h6>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3">
-                                        <a href="/Sell/Apple/iMac/iMac-Core-i5-2.7-21.5-inch-8GB-1TB-2013/">
-                                            <div class="pro_img">
-                                                <img alt="iMac Core i5 2.7 21.5 inch 8GB 1TB (2013)"
-                                                     src="<?php echo get_template_directory_uri()."/assets/products/lt-image.jpg" ?>">
-                                            </div>
-                                            <h2>iMac "Core i5" 2.7 21.5 inch 8GB 1TB (2013)</h2>
-                                            <h5>We paid Hakeem <span>£45</span></h5>
-                                            <h6><i class="fa"></i>GLASGOW</h6>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3">
-                                        <a href="/Sell/DELL/Laptop/DELL-XPS-13-13.3-2-in-1-8GB-256GB-SSD-Silver/">
-                                            <div class="pro_img">
-                                                <img alt="DELL XPS 13 13.3 2 in 1 - 8GB - 256GB SSD - Silver"
-                                                     src="<?php echo get_template_directory_uri()."/assets/products/lt-image.jpg" ?>">
-                                            </div>
-                                            <h2>DELL XPS 13 13.3" 2 in 1 - 8GB - 256GB SSD - Silver</h2>
-                                            <h5>We paid Marketa <span>£295</span></h5>
-                                            <h6><i class="fa"></i>London</h6>
-                                        </a>
-                                    </div>
+
+                                    <?php
+
+                                    $query = new WC_Order_Query( array(
+                                        'limit' => 4,
+                                        'orderby' => 'date',
+                                        'order' => 'DESC',
+                                        'return' => 'ids',
+                                    ) );
+
+                                    $orders = $query->get_orders();
+
+                                    foreach( $orders as $order ) {
+                                        $cur_order = wc_get_order( $order );
+                                        $order_data = $cur_order->get_data();
+
+                                        $products = $cur_order->get_items(); // get products in current order
+
+
+                                        // loop through products to find matching id's and add qty when matching current id
+                                        foreach ( $products as $product ) {
+                                            $product_meta = get_post_meta($product->get_product_id());
+                                            $item_data = $product->get_data();
+                                    ?>
+                                        <div class="col-sm-6 col-md-3">
+                                            <a href="<?php echo get_permalink( $product->get_product_id() ); ?>">
+                                                <div class="pro_img">
+                                                    <?php
+                                                    echo wp_get_attachment_image( $product_meta['_thumbnail_id'][0], 'full' );
+                                                    ?>
+                                                </div>
+                                                <h2> <?php echo $item_data['name'] ?> </h2>
+                                                <h5>We paid <?php echo $order_data['billing']['first_name'] ?> <span>£<?php echo $order_data['total'] ?> </span></h5>
+                                                <h6><i class="fa"></i> <?php echo $order_data['billing']['first_name'] ?> </h6>
+                                            </a>
+                                        </div>
+                                    <?php
+                                        } // end foreach $product
+                                    } // end foreach $post
+
+                                    ?>
                                     <i class="fa arr-go hidden-xs hidden-sm"></i>
                                 </div>
                             </div>
@@ -409,12 +441,13 @@ get_header(); ?>
                     <div class="col-md-6">
                         <script src="https://widget.reviews.co.uk/vertical/dist.js"></script>
                         <div id="tweet-page-widget1" style="width:100%; border-radius:8px">
-                            <iframe name="full-page-widget_frame" id="full-page-widget_frame"
-                                    src="https://widget.reviews.co.uk/vertical/widget?elementId=full-page-widget&amp;version=1&amp;&amp;store=webuyanyelectronics&amp;primaryClr=%2348beeb&amp;neutralClr=%23f4f4f4&amp;buttonClr=%23fff&amp;textClr=%23fff&amp;layout=fullWidth&amp;height=400&amp;numReviews=21"
-                                    frameborder="0" width="100%" title="Reviews Vertical Widget" style="min-width: 170px;"
-                                    height="499">
-
-                            </iframe>
+<!--                            <iframe name="full-page-widget_frame" id="full-page-widget_frame"-->
+<!--                                    src="https://widget.reviews.co.uk/vertical/widget?elementId=full-page-widget&amp;version=1&amp;&amp;store=webuyanyelectronics&amp;primaryClr=%2348beeb&amp;neutralClr=%23f4f4f4&amp;buttonClr=%23fff&amp;textClr=%23fff&amp;layout=fullWidth&amp;height=400&amp;numReviews=21"-->
+<!--                                    frameborder="0" width="100%" title="Reviews Vertical Widget" style="min-width: 170px;"-->
+<!--                                    height="499">-->
+<!---->
+<!--                            </iframe>-->
+                            <?php echo do_shortcode( '[custom-twitter-feeds screenname=gopro num=9]' ); ?>
                         </div>
 <!--                        <script>-->
 <!--                            verticalWidget('tweet-page-widget1', {-->
@@ -433,12 +466,13 @@ get_header(); ?>
                     <div class="col-md-6">
                         <script src="https://widget.reviews.co.uk/vertical/dist.js"></script>
                         <div id="tweet-page-widget2" style="width:100%; border-radius:8px">
-                            <iframe name="full-page-widget_frame" id="full-page-widget_frame"
-                                    src="https://widget.reviews.co.uk/vertical/widget?elementId=full-page-widget&amp;version=1&amp;&amp;store=webuyanyelectronics&amp;primaryClr=%2348beeb&amp;neutralClr=%23f4f4f4&amp;buttonClr=%23fff&amp;textClr=%23fff&amp;layout=fullWidth&amp;height=400&amp;numReviews=21"
-                                    frameborder="0" width="100%" title="Reviews Vertical Widget" style="min-width: 170px;"
-                                    height="499">
-
-                            </iframe>
+<!--                            <iframe name="full-page-widget_frame" id="full-page-widget_frame"-->
+<!--                                    src="https://widget.reviews.co.uk/vertical/widget?elementId=full-page-widget&amp;version=1&amp;&amp;store=webuyanyelectronics&amp;primaryClr=%2348beeb&amp;neutralClr=%23f4f4f4&amp;buttonClr=%23fff&amp;textClr=%23fff&amp;layout=fullWidth&amp;height=400&amp;numReviews=21"-->
+<!--                                    frameborder="0" width="100%" title="Reviews Vertical Widget" style="min-width: 170px;"-->
+<!--                                    height="499">-->
+<!---->
+<!--                            </iframe>-->
+                            <?php echo do_shortcode( '[custom-twitter-feeds screenname=gopro num=9]' ); ?>
                         </div>
                         <!--                        <script>-->
                         <!--                            verticalWidget('tweet-page-widget2', {-->

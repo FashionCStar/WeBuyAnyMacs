@@ -1,4 +1,0 @@
-2018-11-23T04:15:06+00:00 CRITICAL Call to a member function get_cart_total() on null in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\cart\cart.php on line 197
-
-2018-11-23T04:15:37+00:00 CRITICAL Call to a member function get_cart_total() on null in F:\develop\WordPress\webuyanymacs\wp-content\themes\buzzstore\woocommerce\cart\cart.php on line 197
-

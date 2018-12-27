@@ -32,7 +32,7 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 			$product_permalink = apply_filters( 'woocommerce_order_item_permalink', $is_visible ? $product->get_permalink( $item ) : '', $item, $order );
 
 			echo apply_filters( 'woocommerce_order_item_name', $product_permalink ? sprintf( '<a href="%s">%s</a>', $product_permalink, $item->get_name() ) : $item->get_name(), $item, $is_visible );
-			echo apply_filters( 'woocommerce_order_item_quantity_html', ' <strong class="product-quantity">' . sprintf( '&times; %s', $item->get_quantity() ) . '</strong>', $item );
+
 
 			do_action( 'woocommerce_order_item_meta_start', $item_id, $item, $order, false );
 
@@ -42,7 +42,11 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 		?>
 	</td>
 
-	<td class="woocommerce-table__product-total product-total">
+    <td class="woocommerce-table__product-table product-quantity center">
+        <?php echo apply_filters( 'woocommerce_order_item_quantity_html', ' <strong class="product-quantity">' . sprintf( '%s', $item->get_quantity() ) . '</strong>', $item ); ?>
+    </td>
+
+	<td class="woocommerce-table__product-total product-total center">
 		<?php echo $order->get_formatted_line_subtotal( $item ); ?>
 	</td>
 

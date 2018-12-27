@@ -18,6 +18,8 @@
  * @package WordPress
  */
 
+define('ALLOW_UNFILTERED_UPLOADS', true);
+
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define('DB_NAME', 'woo_test');
